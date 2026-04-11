@@ -219,3 +219,123 @@ id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
 218,Bad Moon Rising,Creedence Clearwater Revival,rock,ominous,0.78,180,0.82,0.51,0.06
 219,Baba O Riley,The Who,rock,anthemic,0.84,117,0.55,0.49,0.03
 220,My Generation,The Who,rock,rebellious,0.86,96,0.67,0.41,0.14
+221,Vạn sự như ý,Trúc Nhân,v-pop,festive,0.74,124,0.86,0.74,0.18
+222,Tháng tư là lời nói dối của em,Hà Anh Tuấn,v-pop,melancholy,0.41,82,0.30,0.49,0.63
+223,Xuân thì,Hà Anh Tuấn,v-pop,nostalgic,0.43,88,0.45,0.52,0.68
+224,Bóng phù hoa,Phương Mỹ Chi,v-pop,dramatic,0.70,116,0.42,0.63,0.34
+225,Thật bất ngờ,Trúc Nhân,v-pop,satirical,0.82,128,0.78,0.80,0.09
+226,Ai rồi cũng sẽ khác,Hà Nhi,v-pop,heartbroken,0.48,76,0.27,0.44,0.58
+227,Khi em lớn,Orange,v-pop,reflective,0.56,96,0.49,0.68,0.30
+228,Em hát ai nghe,Orange,v-pop,melancholy,0.52,84,0.34,0.61,0.36
+229,See Tình,Hoàng Thùy Linh,v-pop,playful,0.84,128,0.92,0.86,0.06
+230,Để Mị nói cho mà nghe,Hoàng Thùy Linh,v-pop,festive,0.82,124,0.88,0.82,0.12
+231,Bánh trôi nước,Hoàng Thùy Linh,v-pop,dramatic,0.66,100,0.52,0.67,0.28
+232,Gieo quẻ,Hoàng Thùy Linh,v-pop,festive,0.83,126,0.89,0.84,0.08
+233,Nàng thơ,Hoàng Dũng,v-pop,romantic,0.36,76,0.54,0.53,0.78
+234,Chờ anh nhé,Hoàng Dũng,v-pop,yearning,0.42,88,0.48,0.56,0.63
+235,Đi để trở về,Soobin Hoàng Sơn,v-pop,hopeful,0.61,100,0.74,0.70,0.30
+236,Phía sau một cô gái,Soobin Hoàng Sơn,v-pop,heartbroken,0.48,82,0.31,0.57,0.51
+237,Em của ngày hôm qua,Sơn Tùng M-TP,v-pop,confident,0.78,127,0.79,0.76,0.09
+238,Lạc trôi,Sơn Tùng M-TP,v-pop,dreamy,0.68,100,0.52,0.71,0.24
+239,Hãy trao cho anh,Sơn Tùng M-TP,v-pop,party,0.86,125,0.86,0.82,0.04
+240,Chúng ta của hiện tại,Sơn Tùng M-TP,v-pop,romantic,0.57,92,0.55,0.68,0.22
+241,Có chắc yêu là đây,Sơn Tùng M-TP,v-pop,flirty,0.74,120,0.86,0.82,0.08
+242,Waiting For You,MONO,v-pop,yearning,0.76,122,0.67,0.80,0.07
+243,Em xinh,MONO,v-pop,playful,0.78,118,0.85,0.82,0.06
+244,3107,W/N and Duongg,v-pop,melancholy,0.45,88,0.32,0.65,0.45
+245,Ánh nắng của anh,Đức Phúc,v-pop,romantic,0.50,88,0.67,0.60,0.48
+246,Hơn cả yêu,Đức Phúc,v-pop,romantic,0.54,78,0.69,0.52,0.56
+247,Bước qua nhau,Vũ.,indie v-pop,melancholy,0.42,90,0.30,0.57,0.66
+248,Lạ lùng,Vũ.,indie v-pop,nostalgic,0.39,82,0.38,0.54,0.72
+249,Đông kiếm em,Vũ.,indie v-pop,lonely,0.36,78,0.28,0.49,0.78
+250,Một đêm say,Thịnh Suy,indie v-pop,bittersweet,0.44,84,0.42,0.62,0.61
+251,Chuyện rằng,Thịnh Suy,indie v-pop,reflective,0.40,80,0.41,0.58,0.70
+252,Từ đó,Phan Mạnh Quỳnh,v-pop,romantic,0.43,82,0.55,0.52,0.66
+253,Có chàng trai viết lên cây,Phan Mạnh Quỳnh,v-pop,nostalgic,0.38,74,0.44,0.46,0.76
+254,Sau lời từ khước,Phan Mạnh Quỳnh,v-pop,heartbroken,0.41,80,0.29,0.50,0.68
+255,Hẹn một mai,Bùi Anh Tuấn,v-pop,hopeful,0.46,82,0.57,0.48,0.62
+256,Nơi tình yêu bắt đầu,Bùi Anh Tuấn,v-pop,romantic,0.51,86,0.63,0.54,0.55
+257,Người hãy quên em đi,Mỹ Tâm,v-pop,defiant,0.73,122,0.72,0.78,0.12
+258,Ước gì,Mỹ Tâm,v-pop,yearning,0.44,78,0.36,0.48,0.67
+259,Hoa nở không màu,Hoài Lâm,v-pop,sad,0.34,72,0.24,0.42,0.82
+260,Buồn làm chi em ơi,Hoài Lâm,v-pop,comforting,0.40,78,0.48,0.49,0.72
+261,Chạy về khóc với anh,Erik,v-pop,heartbroken,0.55,90,0.35,0.64,0.38
+262,Sau tất cả,Erik,v-pop,romantic,0.50,84,0.57,0.56,0.55
+263,Không thể cùng nhau suốt kiếp,Hòa Minzy,v-pop,dramatic,0.62,82,0.32,0.48,0.42
+264,Rời bỏ,Hòa Minzy,v-pop,heartbroken,0.50,80,0.29,0.50,0.60
+265,Có em,MIN,v-pop,romantic,0.62,102,0.72,0.74,0.22
+266,Đừng yêu nữa em mệt rồi,MIN,v-pop,heartbroken,0.54,96,0.39,0.70,0.26
+267,Bigcityboi,Binz,v-rap,confident,0.82,95,0.74,0.86,0.03
+268,They Said,Binz,v-rap,moody,0.64,92,0.48,0.78,0.06
+269,Đưa nhau đi trốn,Đen and Linh Cáo,v-rap,carefree,0.58,94,0.72,0.74,0.32
+270,Bài này chill phết,Đen and MIN,v-rap,chill,0.49,90,0.67,0.73,0.40
+271,Một triệu like,Đen,v-rap,reflective,0.58,92,0.62,0.76,0.22
+272,Mang tiền về cho mẹ,Đen and Nguyên Thảo,v-rap,reflective,0.51,88,0.58,0.71,0.36
+273,Simple Love,Obito and Seachains,v-rap,playful,0.79,100,0.86,0.88,0.06
+274,Thiêu thân,Bray and Sofia,v-pop,yearning,0.67,94,0.51,0.75,0.14
+275,Exs Hate Me,Bray and Masew,v-rap,defiant,0.78,100,0.65,0.84,0.04
+276,Shay Nắng,AMEE and Obito,v-pop,flirty,0.73,100,0.84,0.82,0.12
+277,Anh nhà ở đâu thế,AMEE and Bray,v-pop,playful,0.71,104,0.86,0.83,0.09
+278,Yêu 5,Rhymastic,v-pop,romantic,0.68,92,0.73,0.78,0.13
+279,Chạm đáy nỗi đau,Erik,v-pop,heartbroken,0.59,92,0.29,0.60,0.30
+280,Người lạ ơi,Karik and Orange,v-pop,lonely,0.64,95,0.49,0.77,0.18
+281,Gasolina,Daddy Yankee,reggaeton,party,0.89,96,0.82,0.86,0.05
+282,Despacito,Luis Fonsi and Daddy Yankee,latin pop,party,0.80,89,0.85,0.65,0.20
+283,La Camisa Negra,Juanes,latin rock,bittersweet,0.78,97,0.79,0.75,0.18
+284,A Dios le Pido,Juanes,latin rock,hopeful,0.80,96,0.86,0.73,0.20
+285,Vivir Mi Vida,Marc Anthony,salsa,uplifting,0.86,105,0.91,0.70,0.10
+286,Valió la Pena,Marc Anthony,salsa,romantic,0.88,94,0.87,0.72,0.09
+287,La Vida Es Un Carnaval,Celia Cruz,salsa,joyful,0.86,104,0.95,0.69,0.17
+288,Quimbara,Celia Cruz,salsa,party,0.90,100,0.93,0.72,0.11
+289,Pedro Navaja,Rubén Blades,salsa,storytelling,0.74,93,0.60,0.70,0.24
+290,El Cantante,Héctor Lavoe,salsa,dramatic,0.77,94,0.54,0.65,0.18
+291,Oye Como Va,Santana,latin rock,groovy,0.78,129,0.86,0.73,0.15
+292,Corazón Espinado,Santana and Maná,latin rock,yearning,0.82,100,0.70,0.68,0.05
+293,Rayando el Sol,Maná,latin rock,yearning,0.73,88,0.55,0.58,0.16
+294,Labios Compartidos,Maná,latin rock,dramatic,0.78,96,0.62,0.66,0.08
+295,De Música Ligera,Soda Stereo,rock en español,energetic,0.86,124,0.73,0.56,0.02
+296,Persiana Americana,Soda Stereo,rock en español,confident,0.82,129,0.71,0.62,0.03
+297,Tren al Sur,Los Prisioneros,rock en español,nostalgic,0.72,120,0.79,0.67,0.10
+298,Matador,Los Fabulosos Cadillacs,latin rock,defiant,0.88,94,0.75,0.72,0.04
+299,Eres,Café Tacvba,latin alternative,romantic,0.50,88,0.68,0.58,0.47
+300,Ingrata,Café Tacvba,latin alternative,playful,0.83,135,0.88,0.67,0.09
+301,Florecita Rockera,Aterciopelados,latin alternative,rebellious,0.80,126,0.76,0.63,0.08
+302,Bolero Falaz,Aterciopelados,latin alternative,satirical,0.76,116,0.66,0.69,0.11
+303,Tu Falta de Querer,Mon Laferte,latin pop,heartbroken,0.55,86,0.27,0.53,0.48
+304,Amárrame,Mon Laferte and Juanes,latin pop,romantic,0.70,96,0.74,0.72,0.17
+305,Antología,Shakira,latin pop,nostalgic,0.38,82,0.42,0.52,0.77
+306,Inevitable,Shakira,latin pop,yearning,0.69,104,0.49,0.58,0.24
+307,Hips Dont Lie,Shakira and Wyclef Jean,latin pop,party,0.82,100,0.87,0.78,0.05
+308,Waka Waka,Shakira,latin pop,celebratory,0.87,127,0.92,0.77,0.04
+309,Bailando,Enrique Iglesias and Gente de Zona,latin pop,party,0.87,91,0.88,0.73,0.05
+310,El Perdón,Nicky Jam and Enrique Iglesias,reggaeton,yearning,0.79,90,0.69,0.76,0.07
+311,Danza Kuduro,Don Omar and Lucenzo,reggaeton,party,0.92,130,0.93,0.73,0.03
+312,Taboo,Don Omar,reggaeton,party,0.88,127,0.90,0.75,0.04
+313,Mi Gente,J Balvin and Willy William,reggaeton,party,0.86,105,0.82,0.76,0.02
+314,Ginza,J Balvin,reggaeton,confident,0.78,101,0.75,0.83,0.03
+315,Con Altura,Rosalía and J Balvin,reggaeton,confident,0.83,98,0.80,0.88,0.05
+316,Tití Me Preguntó,Bad Bunny,reggaeton,playful,0.82,107,0.73,0.86,0.04
+317,Dákiti,Bad Bunny and Jhay Cortez,reggaeton,nightlife,0.72,110,0.60,0.79,0.08
+318,Me Porto Bonito,Bad Bunny and Chencho Corleone,reggaeton,flirty,0.79,92,0.83,0.91,0.06
+319,La Canción,J Balvin and Bad Bunny,reggaeton,melancholy,0.65,176,0.44,0.76,0.16
+320,Tusa,Karol G and Nicki Minaj,reggaeton,defiant,0.72,101,0.76,0.80,0.09
+321,Bichota,Karol G,reggaeton,confident,0.78,164,0.75,0.86,0.05
+322,Provenza,Karol G,latin pop,relaxed,0.66,111,0.79,0.87,0.12
+323,Telepatía,Kali Uchis,latin pop,dreamy,0.59,84,0.73,0.79,0.15
+324,Después de la Playa,Bad Bunny,merengue,party,0.88,78,0.91,0.69,0.09
+325,Suavemente,Elvis Crespo,merengue,party,0.90,124,0.93,0.73,0.08
+326,Obsesión,Aventura,bachata,yearning,0.74,130,0.66,0.70,0.10
+327,Propuesta Indecente,Romeo Santos,bachata,seductive,0.76,126,0.70,0.71,0.08
+328,Odio,Romeo Santos and Drake,bachata,heartbroken,0.68,128,0.43,0.65,0.12
+329,Bachata Rosa,Juan Luis Guerra,bachata,romantic,0.63,124,0.75,0.66,0.24
+330,Burbujas de Amor,Juan Luis Guerra,bachata,romantic,0.58,126,0.72,0.62,0.30
+331,Ojalá Que Llueva Café,Juan Luis Guerra,merengue,hopeful,0.76,122,0.84,0.68,0.20
+332,La Gozadera,Gente de Zona and Marc Anthony,latin pop,celebratory,0.88,104,0.93,0.75,0.04
+333,Chan Chan,Buena Vista Social Club,son cubano,nostalgic,0.48,83,0.62,0.68,0.74
+334,El Cuarto de Tula,Buena Vista Social Club,son cubano,party,0.70,100,0.84,0.72,0.38
+335,Guantanamera,Celia Cruz,son cubano,hopeful,0.58,96,0.80,0.63,0.52
+336,Bésame Mucho,Consuelo Velázquez,bolero,romantic,0.25,72,0.45,0.42,0.86
+337,Sabor a Mí,Los Panchos,bolero,romantic,0.28,78,0.50,0.45,0.82
+338,Quizás Quizás Quizás,Los Panchos,bolero,flirty,0.34,102,0.63,0.58,0.75
+339,Gracias a la Vida,Violeta Parra,folk,reflective,0.24,82,0.46,0.39,0.91
+340,Volver a los 17,Violeta Parra,folk,nostalgic,0.27,78,0.47,0.42,0.88
