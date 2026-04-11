@@ -1,11 +1,221 @@
 id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
-1,Sunrise City,Neon Echo,pop,happy,0.82,118,0.84,0.79,0.18
-2,Midnight Coding,LoRoom,lofi,chill,0.42,78,0.56,0.62,0.71
-3,Storm Runner,Voltline,rock,intense,0.91,152,0.48,0.66,0.10
-4,Library Rain,Paper Lanterns,lofi,chill,0.35,72,0.60,0.58,0.86
-5,Gym Hero,Max Pulse,pop,intense,0.93,132,0.77,0.88,0.05
-6,Spacewalk Thoughts,Orbit Bloom,ambient,chill,0.28,60,0.65,0.41,0.92
-7,Coffee Shop Stories,Slow Stereo,jazz,relaxed,0.37,90,0.71,0.54,0.89
-8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22
-9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78
-10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35
+1,Respect,Aretha Franklin,soul,empowering,0.71,115,0.82,0.80,0.16
+2,What a Wonderful World,Louis Armstrong,jazz,peaceful,0.29,78,0.74,0.44,0.82
+3,Imagine,John Lennon,pop,reflective,0.36,75,0.62,0.55,0.79
+4,Like a Rolling Stone,Bob Dylan,folk rock,defiant,0.77,95,0.58,0.49,0.72
+5,Smells Like Teen Spirit,Nirvana,grunge,intense,0.96,117,0.42,0.52,0.01
+6,Billie Jean,Michael Jackson,pop,moody,0.76,117,0.70,0.92,0.02
+7,Bohemian Rhapsody,Queen,rock,dramatic,0.87,144,0.45,0.39,0.29
+8,Hotel California,Eagles,rock,moody,0.69,75,0.49,0.58,0.14
+9,Superstition,Stevie Wonder,funk,groovy,0.80,100,0.85,0.90,0.04
+10,Whats Going On,Marvin Gaye,soul,reflective,0.60,101,0.71,0.70,0.24
+11,Good Vibrations,The Beach Boys,pop,happy,0.65,75,0.86,0.42,0.42
+12,Hey Jude,The Beatles,rock,hopeful,0.55,74,0.67,0.46,0.36
+13,Let It Be,The Beatles,rock,comforting,0.40,73,0.54,0.44,0.63
+14,A Change Is Gonna Come,Sam Cooke,soul,hopeful,0.42,74,0.42,0.40,0.67
+15,Strange Fruit,Billie Holiday,jazz,somber,0.18,58,0.10,0.28,0.95
+16,I Will Always Love You,Whitney Houston,pop,emotional,0.49,67,0.32,0.33,0.73
+17,Purple Rain,Prince,rock,emotional,0.70,113,0.36,0.37,0.21
+18,When Doves Cry,Prince,pop,moody,0.74,126,0.66,0.73,0.05
+19,Thriller,Michael Jackson,pop,spooky,0.82,118,0.71,0.77,0.06
+20,Beat It,Michael Jackson,rock,confident,0.86,139,0.74,0.70,0.04
+21,Rolling in the Deep,Adele,pop,defiant,0.76,105,0.52,0.73,0.14
+22,Someone Like You,Adele,pop,sad,0.33,67,0.28,0.56,0.89
+23,Crazy in Love,Beyonce,rnb,confident,0.84,99,0.76,0.82,0.03
+24,Formation,Beyonce,pop,empowering,0.72,123,0.60,0.74,0.02
+25,Single Ladies,Beyonce,pop,playful,0.82,97,0.78,0.88,0.01
+26,Juicy,The Notorious B.I.G.,hip hop,confident,0.72,96,0.69,0.88,0.03
+27,California Love,2Pac,hip hop,party,0.88,92,0.76,0.76,0.03
+28,N.Y. State of Mind,Nas,hip hop,gritty,0.73,85,0.37,0.70,0.05
+29,Lose Yourself,Eminem,hip hop,intense,0.92,171,0.33,0.69,0.01
+30,Alright,Kendrick Lamar,hip hop,hopeful,0.77,110,0.67,0.80,0.06
+31,HUMBLE.,Kendrick Lamar,hip hop,confident,0.78,150,0.44,0.90,0.00
+32,Ms. Jackson,Outkast,hip hop,reflective,0.70,95,0.78,0.84,0.14
+33,Hey Ya!,Outkast,pop,happy,0.97,160,0.96,0.73,0.10
+34,The Message,Grandmaster Flash and the Furious Five,hip hop,serious,0.62,100,0.48,0.80,0.02
+35,Rappers Delight,The Sugarhill Gang,hip hop,party,0.75,112,0.92,0.90,0.04
+36,Runaway,Kanye West,hip hop,reflective,0.62,86,0.34,0.63,0.20
+37,Gold Digger,Kanye West,hip hop,playful,0.81,93,0.83,0.63,0.01
+38,99 Problems,Jay-Z,hip hop,defiant,0.84,93,0.56,0.73,0.01
+39,Empire State of Mind,Jay-Z and Alicia Keys,hip hop,anthemic,0.89,86,0.64,0.49,0.03
+40,Hotline Bling,Drake,pop,melancholy,0.62,135,0.55,0.89,0.08
+41,Gods Plan,Drake,hip hop,confident,0.45,77,0.36,0.75,0.04
+42,SICKO MODE,Travis Scott,hip hop,intense,0.73,155,0.45,0.83,0.01
+43,Old Town Road,Lil Nas X,country rap,playful,0.62,136,0.72,0.88,0.05
+44,Truth Hurts,Lizzo,pop,empowering,0.62,159,0.75,0.72,0.09
+45,Good as Hell,Lizzo,pop,uplifting,0.80,95,0.89,0.69,0.10
+46,Levitating,Dua Lipa,pop,party,0.82,103,0.91,0.70,0.01
+47,Blinding Lights,The Weeknd,synth pop,energetic,0.80,171,0.58,0.51,0.00
+48,Save Your Tears,The Weeknd,pop,melancholy,0.77,118,0.63,0.68,0.02
+49,Bad Guy,Billie Eilish,pop,dark,0.43,135,0.56,0.70,0.33
+50,Ocean Eyes,Billie Eilish,pop,dreamy,0.31,145,0.34,0.51,0.82
+51,drivers license,Olivia Rodrigo,pop,sad,0.43,144,0.18,0.56,0.72
+52,good 4 u,Olivia Rodrigo,pop punk,angry,0.91,167,0.69,0.56,0.03
+53,Shake It Off,Taylor Swift,pop,playful,0.79,160,0.94,0.65,0.06
+54,Blank Space,Taylor Swift,pop,satirical,0.68,96,0.57,0.76,0.09
+55,All Too Well,Taylor Swift,pop,heartbroken,0.55,94,0.25,0.60,0.37
+56,Uptown Funk,Mark Ronson and Bruno Mars,funk,party,0.88,115,0.93,0.86,0.01
+57,Just the Way You Are,Bruno Mars,pop,romantic,0.66,109,0.74,0.64,0.20
+58,Locked Out of Heaven,Bruno Mars,pop,energetic,0.83,144,0.87,0.73,0.05
+59,Havana,Camila Cabello,pop,flirty,0.66,105,0.77,0.76,0.18
+60,Despacito,Luis Fonsi and Daddy Yankee,latin pop,party,0.80,89,0.85,0.65,0.20
+61,Gasolina,Daddy Yankee,reggaeton,party,0.89,96,0.82,0.86,0.05
+62,La Bamba,Ritchie Valens,rock,happy,0.72,158,0.93,0.62,0.32
+63,Oye Como Va,Santana,latin rock,groovy,0.78,129,0.86,0.73,0.15
+64,Macarena,Los Del Rio,dance pop,party,0.83,103,0.96,0.93,0.10
+65,No Woman No Cry,Bob Marley and The Wailers,reggae,comforting,0.44,78,0.69,0.68,0.34
+66,Redemption Song,Bob Marley and The Wailers,reggae,reflective,0.24,116,0.54,0.70,0.94
+67,One Love,Bob Marley and The Wailers,reggae,hopeful,0.59,76,0.86,0.72,0.25
+68,Three Little Birds,Bob Marley and The Wailers,reggae,peaceful,0.52,74,0.90,0.76,0.31
+69,Get Up Stand Up,Bob Marley and The Wailers,reggae,defiant,0.73,78,0.68,0.79,0.17
+70,I Shot the Sheriff,Bob Marley and The Wailers,reggae,tense,0.61,96,0.55,0.76,0.18
+71,Johnny B. Goode,Chuck Berry,rock and roll,energetic,0.84,168,0.94,0.53,0.63
+72,Hound Dog,Elvis Presley,rock and roll,playful,0.79,175,0.87,0.55,0.73
+73,Jailhouse Rock,Elvis Presley,rock and roll,energetic,0.84,167,0.88,0.65,0.41
+74,Suspicious Minds,Elvis Presley,rock,dramatic,0.67,115,0.69,0.49,0.04
+75,Tutti Frutti,Little Richard,rock and roll,wild,0.88,185,0.91,0.54,0.60
+76,Great Balls of Fire,Jerry Lee Lewis,rock and roll,energetic,0.89,166,0.92,0.57,0.68
+77,Maybellene,Chuck Berry,rock and roll,energetic,0.82,124,0.86,0.66,0.49
+78,Be My Baby,The Ronettes,pop,romantic,0.68,130,0.82,0.54,0.34
+79,Youve Lost That Lovin Feelin,The Righteous Brothers,soul,heartbroken,0.50,94,0.31,0.45,0.62
+80,My Girl,The Temptations,soul,happy,0.62,105,0.92,0.59,0.55
+81,Aint No Mountain High Enough,Marvin Gaye and Tammi Terrell,soul,uplifting,0.78,129,0.92,0.66,0.18
+82,I Heard It Through the Grapevine,Marvin Gaye,soul,suspicious,0.64,117,0.58,0.70,0.20
+83,Lean on Me,Bill Withers,soul,comforting,0.46,76,0.72,0.59,0.55
+84,Aint No Sunshine,Bill Withers,soul,lonely,0.38,78,0.28,0.52,0.62
+85,Lovely Day,Bill Withers,soul,happy,0.65,98,0.91,0.69,0.29
+86,September,Earth Wind and Fire,funk,celebratory,0.83,126,0.98,0.70,0.17
+87,Shining Star,Earth Wind and Fire,funk,uplifting,0.86,103,0.89,0.69,0.04
+88,Super Freak,Rick James,funk,party,0.85,132,0.92,0.88,0.02
+89,Play That Funky Music,Wild Cherry,funk,party,0.87,110,0.91,0.83,0.05
+90,I Feel Good,James Brown,funk,joyful,0.81,146,0.95,0.68,0.36
+91,Get Up Offa That Thing,James Brown,funk,energetic,0.90,118,0.88,0.78,0.08
+92,Sex Machine,James Brown,funk,groovy,0.83,106,0.86,0.82,0.12
+93,Move On Up,Curtis Mayfield,soul,uplifting,0.77,138,0.91,0.58,0.28
+94,People Get Ready,The Impressions,soul,hopeful,0.37,82,0.63,0.42,0.74
+95,Stand By Me,Ben E. King,soul,comforting,0.49,118,0.70,0.65,0.57
+96,At Last,Etta James,jazz,romantic,0.34,88,0.45,0.27,0.70
+97,Feeling Good,Nina Simone,jazz,empowering,0.53,79,0.55,0.40,0.76
+98,My Baby Just Cares for Me,Nina Simone,jazz,playful,0.46,118,0.80,0.65,0.86
+99,Take Five,The Dave Brubeck Quartet,jazz,cool,0.45,174,0.57,0.45,0.80
+100,So What,Miles Davis,jazz,cool,0.34,136,0.43,0.43,0.87
+101,Blue in Green,Miles Davis,jazz,melancholy,0.17,57,0.21,0.22,0.94
+102,Giant Steps,John Coltrane,jazz,complex,0.72,148,0.46,0.46,0.72
+103,My Favorite Things,John Coltrane,jazz,dreamy,0.49,98,0.62,0.40,0.72
+104,Strange Meadow Lark,The Dave Brubeck Quartet,jazz,peaceful,0.24,70,0.45,0.31,0.91
+105,Freddie Freeloader,Miles Davis,jazz,relaxed,0.42,129,0.61,0.53,0.82
+106,Whatd I Say,Ray Charles,soul,energetic,0.79,88,0.88,0.72,0.25
+107,Georgia on My Mind,Ray Charles,soul,nostalgic,0.30,66,0.42,0.35,0.78
+108,Hit the Road Jack,Ray Charles,soul,playful,0.74,86,0.86,0.74,0.22
+109,I Say a Little Prayer,Aretha Franklin,soul,romantic,0.58,134,0.72,0.59,0.31
+110,Natural Woman,Aretha Franklin,soul,emotional,0.46,111,0.49,0.49,0.58
+111,Dancing Queen,ABBA,pop,joyful,0.86,101,0.97,0.54,0.05
+112,Mamma Mia,ABBA,pop,playful,0.75,137,0.88,0.75,0.29
+113,Gimme Gimme Gimme,ABBA,disco,yearning,0.83,120,0.73,0.75,0.02
+114,I Will Survive,Gloria Gaynor,disco,empowering,0.80,117,0.83,0.76,0.02
+115,Stayin Alive,Bee Gees,disco,confident,0.79,104,0.92,0.70,0.03
+116,Night Fever,Bee Gees,disco,party,0.82,109,0.90,0.69,0.04
+117,Last Dance,Donna Summer,disco,dramatic,0.79,125,0.78,0.60,0.03
+118,I Feel Love,Donna Summer,electronic,hypnotic,0.76,128,0.59,0.70,0.01
+119,Le Freak,Chic,disco,party,0.81,119,0.91,0.91,0.03
+120,Good Times,Chic,disco,groovy,0.75,111,0.96,0.87,0.06
+121,Another One Bites the Dust,Queen,rock,confident,0.70,110,0.72,0.93,0.11
+122,We Will Rock You,Queen,rock,anthemic,0.72,81,0.63,0.69,0.18
+123,We Are the Champions,Queen,rock,triumphant,0.68,64,0.45,0.27,0.38
+124,Dont Stop Believin,Journey,rock,hopeful,0.82,119,0.70,0.50,0.13
+125,Born to Run,Bruce Springsteen,rock,yearning,0.92,147,0.68,0.39,0.01
+126,Thunder Road,Bruce Springsteen,rock,hopeful,0.58,115,0.61,0.45,0.24
+127,Born in the U.S.A.,Bruce Springsteen,rock,anthemic,0.92,122,0.71,0.50,0.01
+128,Free Fallin,Tom Petty,rock,nostalgic,0.55,84,0.65,0.62,0.19
+129,American Girl,Tom Petty and the Heartbreakers,rock,energetic,0.83,115,0.77,0.55,0.01
+130,Dreams,Fleetwood Mac,rock,reflective,0.49,120,0.79,0.83,0.06
+131,Go Your Own Way,Fleetwood Mac,rock,defiant,0.83,135,0.83,0.58,0.02
+132,Landslide,Fleetwood Mac,folk rock,reflective,0.24,81,0.31,0.42,0.88
+133,The Chain,Fleetwood Mac,rock,tense,0.68,151,0.49,0.55,0.13
+134,Stairway to Heaven,Led Zeppelin,rock,epic,0.62,82,0.37,0.34,0.58
+135,Whole Lotta Love,Led Zeppelin,rock,intense,0.90,89,0.66,0.41,0.05
+136,Kashmir,Led Zeppelin,rock,epic,0.82,81,0.39,0.48,0.45
+137,Black Dog,Led Zeppelin,rock,confident,0.86,81,0.70,0.44,0.03
+138,Paint It Black,The Rolling Stones,rock,dark,0.78,159,0.38,0.47,0.04
+139,Satisfaction,The Rolling Stones,rock,defiant,0.82,136,0.74,0.72,0.03
+140,Gimme Shelter,The Rolling Stones,rock,tense,0.82,119,0.43,0.63,0.12
+141,Sympathy for the Devil,The Rolling Stones,rock,mischievous,0.78,116,0.70,0.66,0.08
+142,London Calling,The Clash,punk,urgent,0.88,134,0.65,0.63,0.03
+143,Should I Stay or Should I Go,The Clash,punk,playful,0.86,113,0.80,0.74,0.05
+144,Blitzkrieg Bop,Ramones,punk,energetic,0.91,177,0.84,0.43,0.01
+145,Anarchy in the U.K.,Sex Pistols,punk,angry,0.93,134,0.42,0.32,0.02
+146,God Save the Queen,Sex Pistols,punk,defiant,0.94,150,0.49,0.36,0.01
+147,Basket Case,Green Day,punk rock,anxious,0.93,85,0.77,0.44,0.00
+148,American Idiot,Green Day,punk rock,angry,0.96,186,0.68,0.38,0.00
+149,Wake Me Up When September Ends,Green Day,rock,sad,0.62,105,0.30,0.54,0.09
+150,Everlong,Foo Fighters,rock,yearning,0.94,158,0.51,0.41,0.00
+151,Learn to Fly,Foo Fighters,rock,uplifting,0.86,136,0.78,0.45,0.00
+152,Creep,Radiohead,alternative rock,alienated,0.62,92,0.21,0.52,0.01
+153,Paranoid Android,Radiohead,alternative rock,anxious,0.78,82,0.26,0.36,0.04
+154,Karma Police,Radiohead,alternative rock,melancholy,0.54,75,0.33,0.43,0.06
+155,No Surprises,Radiohead,alternative rock,numb,0.32,76,0.25,0.26,0.79
+156,Wonderwall,Oasis,britpop,yearning,0.70,87,0.48,0.41,0.00
+157,Dont Look Back in Anger,Oasis,britpop,hopeful,0.73,163,0.70,0.37,0.08
+158,Live Forever,Oasis,britpop,hopeful,0.88,91,0.65,0.32,0.00
+159,Bittersweet Symphony,The Verve,britpop,reflective,0.75,85,0.48,0.36,0.03
+160,Song 2,Blur,alternative rock,energetic,0.96,130,0.66,0.67,0.00
+161,Common People,Pulp,britpop,satirical,0.86,149,0.79,0.59,0.01
+162,Seven Nation Army,The White Stripes,rock,defiant,0.86,124,0.58,0.74,0.01
+163,Fell in Love with a Girl,The White Stripes,garage rock,frantic,0.97,192,0.73,0.39,0.01
+164,Mr. Brightside,The Killers,indie rock,jealous,0.91,148,0.50,0.36,0.00
+165,Somebody Told Me,The Killers,indie rock,energetic,0.91,138,0.75,0.51,0.00
+166,Float On,Modest Mouse,indie rock,optimistic,0.78,101,0.86,0.65,0.02
+167,Take Me Out,Franz Ferdinand,indie rock,confident,0.86,104,0.79,0.67,0.00
+168,Last Nite,The Strokes,indie rock,restless,0.85,104,0.72,0.63,0.02
+169,Reptilia,The Strokes,indie rock,intense,0.92,158,0.59,0.49,0.00
+170,Maps,Yeah Yeah Yeahs,indie rock,yearning,0.67,120,0.45,0.46,0.01
+171,Dog Days Are Over,Florence and the Machine,indie pop,uplifting,0.85,150,0.72,0.50,0.02
+172,Shake It Out,Florence and the Machine,indie pop,cathartic,0.78,108,0.57,0.48,0.08
+173,Electric Feel,MGMT,indie pop,psychedelic,0.80,103,0.88,0.76,0.03
+174,Kids,MGMT,indie pop,nostalgic,0.82,123,0.86,0.45,0.02
+175,Pumped Up Kicks,Foster the People,indie pop,dark,0.72,128,0.73,0.73,0.14
+176,Midnight City,M83,synth pop,dreamy,0.84,105,0.52,0.53,0.01
+177,Time to Pretend,MGMT,indie pop,carefree,0.85,101,0.76,0.52,0.01
+178,Holocene,Bon Iver,indie folk,reflective,0.28,74,0.25,0.36,0.87
+179,Skinny Love,Bon Iver,indie folk,fragile,0.24,76,0.22,0.42,0.91
+180,The Night We Met,Lord Huron,indie folk,nostalgic,0.37,87,0.23,0.54,0.75
+181,Ho Hey,The Lumineers,folk,joyful,0.62,80,0.79,0.69,0.65
+182,Little Lion Man,Mumford and Sons,folk rock,urgent,0.82,139,0.48,0.46,0.24
+183,I Will Wait,Mumford and Sons,folk rock,hopeful,0.80,131,0.61,0.48,0.17
+184,Fast Car,Tracy Chapman,folk,yearning,0.39,104,0.36,0.71,0.56
+185,Talkin Bout a Revolution,Tracy Chapman,folk,hopeful,0.53,115,0.62,0.63,0.69
+186,The Times They Are A-Changin,Bob Dylan,folk,reflective,0.29,87,0.45,0.39,0.89
+187,Blowin in the Wind,Bob Dylan,folk,questioning,0.22,88,0.48,0.38,0.92
+188,Mr. Tambourine Man,Bob Dylan,folk,dreamy,0.34,121,0.63,0.48,0.81
+189,The Sound of Silence,Simon and Garfunkel,folk,somber,0.27,106,0.21,0.44,0.82
+190,Bridge Over Troubled Water,Simon and Garfunkel,folk,comforting,0.36,80,0.39,0.26,0.86
+191,Mrs. Robinson,Simon and Garfunkel,folk rock,playful,0.66,92,0.80,0.61,0.61
+192,Big Yellow Taxi,Joni Mitchell,folk,bittersweet,0.53,86,0.69,0.64,0.74
+193,A Case of You,Joni Mitchell,folk,intimate,0.25,95,0.33,0.45,0.88
+194,Blue,Joni Mitchell,folk,melancholy,0.21,77,0.23,0.37,0.91
+195,Hallelujah,Leonard Cohen,folk,spiritual,0.29,56,0.25,0.34,0.86
+196,Suzanne,Leonard Cohen,folk,mysterious,0.24,120,0.39,0.47,0.92
+197,Ring of Fire,Johnny Cash,country,playful,0.61,104,0.82,0.66,0.59
+198,I Walk the Line,Johnny Cash,country,steady,0.45,99,0.70,0.67,0.68
+199,Folsom Prison Blues,Johnny Cash,country,gritty,0.60,112,0.62,0.69,0.63
+200,Jolene,Dolly Parton,country,pleading,0.54,111,0.46,0.66,0.57
+201,I Will Always Love You,Dolly Parton,country,emotional,0.31,70,0.35,0.44,0.84
+202,9 to 5,Dolly Parton,country pop,uplifting,0.78,105,0.91,0.67,0.30
+203,Friends in Low Places,Garth Brooks,country,party,0.72,110,0.86,0.62,0.18
+204,The Dance,Garth Brooks,country,reflective,0.35,77,0.34,0.37,0.74
+205,Before He Cheats,Carrie Underwood,country,angry,0.86,148,0.70,0.52,0.27
+206,Need You Now,Lady A,country pop,lonely,0.63,108,0.36,0.61,0.11
+207,Wagon Wheel,Darius Rucker,country,roadtrip,0.73,148,0.86,0.61,0.24
+208,Cruise,Florida Georgia Line,country pop,carefree,0.82,148,0.84,0.64,0.05
+209,Tennessee Whiskey,Chris Stapleton,country soul,romantic,0.48,49,0.56,0.39,0.31
+210,Take Me Home Country Roads,John Denver,country,nostalgic,0.44,82,0.76,0.56,0.76
+211,Rocky Mountain High,John Denver,country,peaceful,0.39,82,0.66,0.52,0.79
+212,Sweet Home Alabama,Lynyrd Skynyrd,southern rock,proud,0.78,98,0.87,0.60,0.19
+213,Free Bird,Lynyrd Skynyrd,southern rock,epic,0.74,118,0.55,0.28,0.15
+214,The Weight,The Band,roots rock,earthy,0.55,144,0.64,0.63,0.43
+215,Fortunate Son,Creedence Clearwater Revival,rock,defiant,0.91,133,0.66,0.64,0.02
+216,Have You Ever Seen the Rain,Creedence Clearwater Revival,rock,bittersweet,0.56,116,0.70,0.74,0.08
+217,Proud Mary,Creedence Clearwater Revival,rock,energetic,0.69,121,0.83,0.72,0.10
+218,Bad Moon Rising,Creedence Clearwater Revival,rock,ominous,0.78,180,0.82,0.51,0.06
+219,Baba O Riley,The Who,rock,anthemic,0.84,117,0.55,0.49,0.03
+220,My Generation,The Who,rock,rebellious,0.86,96,0.67,0.41,0.14

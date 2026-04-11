@@ -16,6 +16,7 @@ This is the scoring rule that will be used to evaluate
 the songs. Each component (relevance, diversity, novelty, 
 fairness) will be calculated based on the user's preferences and the attributes of the songs. The relevance score will measure how well a song matches the user's preferences, the diversity score will assess how different the recommended songs are from each other, the novelty score will evaluate how new or unique the songs are to the user, and the fairness score will ensure that the recommendations are not biased towards certain artists, genres, or other attributes. The final score will be a weighted combination of these components, and the songs with the highest scores will be recommended to the user.
 
+Some of the subjective features that Song and UserProfile objects will be used
 ---
 
 ## How The System Works
