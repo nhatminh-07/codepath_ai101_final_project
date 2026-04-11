@@ -1,37 +1,186 @@
-# 🎵 Music Recommender Simulation
+# Music Recommender Simulation
 
 ## Project Summary
 
-Main type of songs storage:
-It will be stored through a CSV file, which will be represented by the main.py file and the songs.csv (not including the actual music itself). The CSV file will contain metadata about each song, such as title, artist, genre, mood, energy level, and other relevant attributes. The load_songs function in recommender.py will read this CSV file and convert it into a list of dictionaries or a similar data structure for easy access and manipulation when scoring and recommending songs based on user preferences.
+This project builds a simple music recommender system using a CSV song catalog.
+The catalog is stored in [data/songs.csv](data/songs.csv), which contains song
+metadata such as title, artist, genre, mood, energy, tempo, valence,
+danceability, and acousticness. The project does not store the actual music
+files.
 
-Weights
-There will be a regression problem within the Scoring Rule: score = w1 * genre_match + w2 * mood_match + w3 * energy_match + ...
-The weights (w1, w2, w3, etc.) will be determined through experimentation and tuning. Initially, you can start with  equal weights (e.g., w1 = w2 = w3 = 1) and then adjust them  based on the performance of your recommender system. You can use techniques like grid search or random search to find the optimal weights that maximize the relevance of the recommended songs to the user's preferences.
+The `load_songs` function in [src/recommender.py](src/recommender.py) reads the
+CSV file and converts each row into a dictionary or `Song` object. The
+recommender then compares each song's features with a user's profile and uses a
+scoring rule to decide which songs should be recommended.
 
+## Scoring Values
 
+The recommender can start with a simple weighted scoring rule:
+
+```text
+score = w1 * genre_match + w2 * mood_match + w3 * energy_match + ...
+```
+
+The weights (`w1`, `w2`, `w3`, etc.) decide how important each feature is. At
+first, the system can use equal weights. Later, the weights can be adjusted
+through experimentation, such as testing different user profiles and checking
+whether the recommendations feel relevant.
+
+The scoring rule should also reflect the recommender's main values, not only a
+single user's immediate preferences:
+
+```text
 score = relevance + diversity + novelty + fairness
+```
 
-This is the scoring rule that will be used to evaluate 
-the songs. Each component (relevance, diversity, novelty, 
-fairness) will be calculated based on the user's preferences and the attributes of the songs. The relevance score will measure how well a song matches the user's preferences, the diversity score will assess how different the recommended songs are from each other, the novelty score will evaluate how new or unique the songs are to the user, and the fairness score will ensure that the recommendations are not biased towards certain artists, genres, or other attributes. The final score will be a weighted combination of these components, and the songs with the highest scores will be recommended to the user.
+- **Relevance** measures how well a song matches the user's preferences.
+- **Diversity** helps avoid recommending songs that are too similar to each
+  other.
+- **Novelty** helps include songs the user may not already know.
+- **Fairness** helps avoid over-recommending only certain artists, genres,
+  languages, or regions.
 
-Some of the subjective features that Song and UserProfile objects will be used
+The final score can combine these values so the recommender balances personal
+fit with broader goals like variety, discovery, and fairness.
+
 ---
 
 ## How The System Works
 
-Explain your design in plain language.
+The recommender uses content-based filtering. This means it recommends songs
+based on the attributes of the songs themselves, such as genre, mood, energy,
+tempo, valence, danceability, and acousticness.
 
-Some prompts to answer:
+This approach fits the project because the dataset has song features, but it
+does not have real user listening history, likes, skips, ratings, or playlists.
+Because of that, collaborative filtering is not the best choice here.
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+### Potential User Profiles
 
-You can include a simple diagram or bullet list if helpful.
+These profiles can be used to test the recommender logic and explanations:
+
+1. **Energetic Pop Listener**  
+   Likes pop or v-pop, happy moods, high energy, and high danceability.
+
+2. **Sad Acoustic Listener**  
+   Likes calm songs, sad or heartbroken moods, low energy, and high acousticness.
+
+3. **Dance / Party Listener**  
+   Cares more about danceability, tempo, and valence than genre.
+
+4. **Chill Study Listener**  
+   Prefers relaxed or focused moods, medium-low energy, and lower tempo.
+
+5. **Latin Dance Listener**  
+   Likes reggaeton, salsa, bachata, or Latin pop with high danceability.
+
+6. **Vietnamese Ballad Listener**  
+   Likes v-pop, romantic or melancholy moods, and medium-low energy.
+
+7. **Discovery Listener**  
+   Wants variety across genres, artists, and languages instead of only close
+   matches.
+
+### Song Features
+
+The dataset uses these features:
+
+- **Genre**: a category such as pop, rock, jazz, v-pop, reggaeton, salsa, hip hop,
+  country, reggae, or folk.
+- **Mood**: the emotional feeling of the song, such as happy, sad, romantic,
+  melancholy, intense, relaxed, or empowering.
+- **Energy**: a value from `0.0` to `1.0`, where lower values are calmer and
+  higher values are more energetic.
+- **Tempo**: the speed of the song in BPM.
+- **Valence**: a value from `0.0` to `1.0`, where lower values feel sadder or
+  darker and higher values feel happier or more positive.
+- **Danceability**: a value from `0.0` to `1.0`, where higher values mean the
+  song is easier to dance to.
+- **Acousticness**: a value from `0.0` to `1.0`, where higher values mean the
+  song sounds more acoustic or organic.
+
+Genre and mood are categorical labels. In a more advanced system, these labels
+could be predicted from lyrics, audio, or metadata using machine learning
+models. For this project, the labels are already included in the dataset, so the
+recommender can use them directly.
+
+### Algorithm Choice
+
+This project uses a **content-based filtering** approach.
+
+Other possible approaches include:
+
+- **Collaborative filtering**: recommends songs based on what similar users
+  liked. This requires user interaction data, which this project does not have.
+- **Hybrid recommendation**: combines content-based and collaborative filtering.
+  This can be stronger in real systems, but it requires more data.
+
+Since this project only has song metadata and a user profile, content-based
+filtering is the best fit.
+
+### Recommendation Recipe
+
+1. Define a scoring function that takes one song and one user profile.
+2. Compare the song's features with the user's preferences.
+3. Use weighted scores for genre, mood, energy, acousticness, and other features.
+4. Generate a short explanation for each song.
+5. Sort all songs by score.
+6. Return the top `k` recommendations.
+
+The explanation can describe which features contributed most to the score. For
+example: "This song matches your preferred mood and has an energy level close to
+your target."
+
+### Process Diagram
+
+```mermaid
+flowchart TD
+    A[Start] --> B[Load song catalog from data/songs.csv]
+    B --> C[Create or receive a UserProfile]
+
+    C --> D[Read user preferences]
+    D --> D1[Favorite genre]
+    D --> D2[Favorite mood]
+    D --> D3[Target energy]
+    D --> D4[Acoustic preference]
+
+    B --> E[Read song features]
+    E --> E1[Genre]
+    E --> E2[Mood]
+    E --> E3[Energy]
+    E --> E4[Tempo BPM]
+    E --> E5[Valence]
+    E --> E6[Danceability]
+    E --> E7[Acousticness]
+
+    D --> F[Scoring Rule]
+    E --> F
+
+    F --> G[Score one song at a time]
+    G --> G1[Genre match score]
+    G --> G2[Mood match score]
+    G --> G3[Energy distance score]
+    G --> G4[Acousticness score]
+    G --> G5[Optional value scores: diversity, novelty, fairness]
+
+    G1 --> H[Combined song score]
+    G2 --> H
+    G3 --> H
+    G4 --> H
+    G5 --> H
+
+    H --> I{More songs to score?}
+    I -- Yes --> G
+    I -- No --> J[Ranking Rule]
+
+    J --> K[Sort songs from highest score to lowest score]
+    K --> L[Apply top-k selection]
+    L --> M[Create explanations for recommended songs]
+    M --> N[Show final recommendations]
+```
+
+The **Scoring Rule** evaluates one song at a time. The **Ranking Rule** takes
+all scored songs, sorts them, and returns the best `k` recommendations.
 
 ---
 
@@ -39,24 +188,37 @@ You can include a simple diagram or bullet list if helpful.
 
 ### Setup
 
-1. Create a virtual environment (optional but recommended):
+1. Create a virtual environment. This is optional, but recommended.
 
    ```bash
    python -m venv .venv
-   source .venv/bin/activate      # Mac or Linux
-   .venv\Scripts\activate         # Windows
+   ```
 
-2. Install dependencies
+2. Activate the virtual environment.
 
-```bash
-pip install -r requirements.txt
-```
+   On Mac or Linux:
 
-3. Run the app:
+   ```bash
+   source .venv/bin/activate
+   ```
 
-```bash
-python -m src.main
-```
+   On Windows:
+
+   ```bash
+   .venv\Scripts\activate
+   ```
+
+3. Install dependencies.
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Run the app.
+
+   ```bash
+   python -m src.main
+   ```
 
 ### Running Tests
 
@@ -70,146 +232,48 @@ You can add more tests in `tests/test_recommender.py`.
 
 ---
 
-## Experiments You Tried
+## Experiments To Try
 
-Use this section to document the experiments you ran. For example:
+Use this section to document experiments with the recommender. For example:
 
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+- What happens when the weight on genre changes from `2.0` to `0.5`?
+- What happens when tempo or valence is added to the score?
+- How does the system behave for different user profiles?
+- Does the recommender over-favor one genre, artist, mood, language, or region?
+- Do the explanations match the songs that were recommended?
 
 ---
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
+This recommender is useful for classroom exploration, but it has important
+limitations:
 
-Examples:
+- It uses manually assigned song metadata rather than full audio analysis.
+- It does not understand lyrics, cultural meaning, or personal context.
+- It does not use real listening history, skips, likes, or ratings.
+- It may over-favor genres, moods, or languages that appear more often in the
+  dataset.
+- It may treat a user's taste as too simple, even though real people often enjoy
+  different music in different situations.
+- It may recommend popular or familiar music more often than lesser-known songs
+  unless diversity and novelty are included in the ranking rule.
 
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+These limitations should also be discussed in [model_card.md](model_card.md).
 
 ---
 
 ## Reflection
 
-Read and complete `model_card.md`:
+This project shows how recommender systems turn data into predictions. Even a
+simple system has to make choices about what matters: genre, mood, energy,
+danceability, acousticness, diversity, novelty, and fairness.
 
-[**Model Card**](model_card.md)
+It also shows where bias can appear. If the dataset includes more songs from one
+language, genre, region, or artist group, the recommender may favor those songs.
+Human judgment still matters because music taste is personal, cultural, and
+context-dependent. A score can help organize choices, but it cannot fully
+understand why a song matters to someone.
 
-Write 1 to 2 paragraphs here about what you learned:
-
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
-
-
----
-
-## 7. `model_card_template.md`
-
-Combines reflection and model card framing from the Module 3 guidance. :contentReference[oaicite:2]{index=2}  
-
-```markdown
-# 🎧 Model Card - Music Recommender Simulation
-
-## 1. Model Name
-
-Give your recommender a name, for example:
-
-> VibeFinder 1.0
-
----
-
-## 2. Intended Use
-
-- What is this system trying to do
-- Who is it for
-
-Example:
-
-> This model suggests 3 to 5 songs from a small catalog based on a user's preferred genre, mood, and energy level. It is for classroom exploration only, not for real users.
-
----
-
-## 3. How It Works (Short Explanation)
-
-Describe your scoring logic in plain language.
-
-- What features of each song does it consider
-- What information about the user does it use
-- How does it turn those into a number
-
-Try to avoid code in this section, treat it like an explanation to a non programmer.
-
----
-
-## 4. Data
-
-Describe your dataset.
-
-- How many songs are in `data/songs.csv`
-- Did you add or remove any songs
-- What kinds of genres or moods are represented
-- Whose taste does this data mostly reflect
-
----
-
-## 5. Strengths
-
-Where does your recommender work well
-
-You can think about:
-- Situations where the top results "felt right"
-- Particular user profiles it served well
-- Simplicity or transparency benefits
-
----
-
-## 6. Limitations and Bias
-
-Where does your recommender struggle
-
-Some prompts:
-- Does it ignore some genres or moods
-- Does it treat all users as if they have the same taste shape
-- Is it biased toward high energy or one genre by default
-- How could this be unfair if used in a real product
-
----
-
-## 7. Evaluation
-
-How did you check your system
-
-Examples:
-- You tried multiple user profiles and wrote down whether the results matched your expectations
-- You compared your simulation to what a real app like Spotify or YouTube tends to recommend
-- You wrote tests for your scoring logic
-
-You do not need a numeric metric, but if you used one, explain what it measures.
-
----
-
-## 8. Future Work
-
-If you had more time, how would you improve this recommender
-
-Examples:
-
-- Add support for multiple users and "group vibe" recommendations
-- Balance diversity of songs instead of always picking the closest match
-- Use more features, like tempo ranges or lyric themes
-
----
-
-## 9. Personal Reflection
-
-A few sentences about what you learned:
-
-- What surprised you about how your system behaved
-- How did building this change how you think about real music recommenders
-- Where do you think human judgment still matters, even if the model seems "smart"
-
+For a fuller explanation of the model's intended use, strengths, limitations,
+and evaluation, see [model_card.md](model_card.md).
