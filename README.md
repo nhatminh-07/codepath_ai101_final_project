@@ -131,6 +131,8 @@ The explanation can describe which features contributed most to the score. For
 example: "This song matches your preferred mood and has an energy level close to
 your target."
 
+Potential issues: genre could be over-focused on genre or mood --> The word relationship (BERT) should be marginalized (there are a lot of genres like BERT) --> Your algorithms should be visualized to accept hundreds of different genres and different vector embeddings --> The totals could be vector differences.
+
 ### Process Diagram
 
 ```mermaid
