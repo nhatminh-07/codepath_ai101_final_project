@@ -2,16 +2,19 @@
 
 ## Project Summary
 
-In this project you will build and explain a small music recommender system.
+Main type of songs storage:
+It will be stored through a CSV file, which will be represented by the main.py file and the songs.csv (not including the actual music itself). The CSV file will contain metadata about each song, such as title, artist, genre, mood, energy level, and other relevant attributes. The load_songs function in recommender.py will read this CSV file and convert it into a list of dictionaries or a similar data structure for easy access and manipulation when scoring and recommending songs based on user preferences.
 
-Your goal is to:
+Weights
+There will be a regression problem within the Scoring Rule: score = w1 * genre_match + w2 * mood_match + w3 * energy_match + ...
+The weights (w1, w2, w3, etc.) will be determined through experimentation and tuning. Initially, you can start with  equal weights (e.g., w1 = w2 = w3 = 1) and then adjust them  based on the performance of your recommender system. You can use techniques like grid search or random search to find the optimal weights that maximize the relevance of the recommended songs to the user's preferences.
 
-- Represent songs and a user "taste profile" as data
-- Design a scoring rule that turns that data into recommendations
-- Evaluate what your system gets right and wrong
-- Reflect on how this mirrors real world AI recommenders
 
-Replace this paragraph with your own summary of what your version does.
+score = relevance + diversity + novelty + fairness
+
+This is the scoring rule that will be used to evaluate 
+the songs. Each component (relevance, diversity, novelty, 
+fairness) will be calculated based on the user's preferences and the attributes of the songs. The relevance score will measure how well a song matches the user's preferences, the diversity score will assess how different the recommended songs are from each other, the novelty score will evaluate how new or unique the songs are to the user, and the fairness score will ensure that the recommendations are not biased towards certain artists, genres, or other attributes. The final score will be a weighted combination of these components, and the songs with the highest scores will be recommended to the user.
 
 ---
 
