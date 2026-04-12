@@ -2,20 +2,13 @@
 
 ## 1. Model Name  
 
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
+**VibeFinder 1.0**  
 
 ---
 
 ## 2. Intended Use  
 
-Describe what your recommender is designed to do and who it is for. 
-
-Prompts:  
-
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
+- Recommendations it generates: it mostly generates the 5 best music that it does become
 
 ---
 
@@ -49,27 +42,15 @@ Prompts:
 
 ## 5. Strengths  
 
-Where does your system seem to work well  
-
-Prompts:  
-
-- User types for which it gives reasonable results  
-- Any patterns you think your scoring captures correctly  
-- Cases where the recommendations matched your intuition  
+One of the things that it could shows reasonable results could be 
 
 ---
 
 ## 6. Limitations and Bias 
 
-Where the system struggles or behaves unfairly. 
+The systems have biases on the model: there are generating top 5 of the best music it does got.
 
-Prompts:  
-
-- Features it does not consider  
-- Genres or moods that are underrepresented  
-- Cases where the system overfits to one preference  
-- Ways the scoring might unintentionally favor some users  
-
+The genre systems prioritize exact matching, which means it creates an uncertain exact matching that the models are trying to behave. It creates a bubble for genre and mood: this bubble may create a echo chamber of the bubble and mood and forget to priortize that people's preferences may change overtime. In this case, I thinks there could be changed by the word-matching algorithm:
 ---
 
 ## 7. Evaluation  

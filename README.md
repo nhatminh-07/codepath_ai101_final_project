@@ -202,6 +202,13 @@ all scored songs, sorts them, and returns the best `k` recommendations.
 
 ### Output images
 ![Music recommender terminal output](assets/output.png)
+![Test 1 output](assets/test1.png)
+![Test 2 output](assets/test2.png)
+![Test 3 output](assets/test3.png)
+![Test 4 output](assets/test4.png)
+![Test 5 output](assets/test5.png)
+![Test 6 output](assets/test6.png)
+
 
 ---
 
