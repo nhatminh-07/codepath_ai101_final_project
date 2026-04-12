@@ -287,7 +287,6 @@ limitations:
 - It may recommend popular or familiar music more often than lesser-known songs
   unless diversity and novelty are included in the ranking rule.
 
-These limitations should also be discussed in [model_card.md](model_card.md).
 
 ---
 
@@ -303,5 +302,3 @@ Human judgment still matters because music taste is personal, cultural, and
 context-dependent. A score can help organize choices, but it cannot fully
 understand why a song matters to someone.
 
-For a fuller explanation of the model's intended use, strengths, limitations,
-and evaluation, see [model_card.md](model_card.md).
