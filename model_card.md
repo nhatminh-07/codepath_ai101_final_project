@@ -93,37 +93,20 @@ The tests checked whether the highest-ranked songs matched the expected genre, m
 
 Some improvements I could make in the future include:
 
-- Add more data and more song features, such as tempo, valence, danceability,
-  language, region, and popularity.
-- Add more scoring factors so the system can reward both exact matches and close
-  matches.
-- Fine-tune the scoring weights after testing the recommender with different
-  user profiles.
-- Improve genre and mood matching by representing them as vectors instead of
-  exact words. This would let the system understand that related genres, such as
-  `pop`, `v-pop`, and `synth pop`, have shared meanings.
-- Add diversity rules so the top results do not all come from the same genre,
-  mood, or artist.
+- Add more data and more song features, such as tempo, valence, danceability, language, region, and popularity.
+- Add more scoring factors so the system can reward both exact matches and close matches.
+- Fine-tune the scoring weights after testing the recommender with different user profiles.
+- Improve genre and mood matching by representing them as vectors instead of exact words. This would let the system understand that related genres, such as  `pop`, `v-pop`, and `synth pop`, have shared meanings.
+- Add diversity rules so the top results do not all come from the same genre, mood, or artist.
 
-In a larger real-world system, these improvements could be learned from user
-data, but this project keeps the logic rule-based so it remains easier to
-understand.
+In a larger real-world system, these improvements could be learned from user data, but this project keeps the logic rule-based so it remains easier to understand.
 
 ---
 
 ## 9. Personal Reflection
 
-This project taught me how recommendation systems turn simple rules into ranked
-results. It also helped me understand how a basic rule-based system is connected
-to the history of AI, especially earlier symbolic AI systems from the 1960s and
-1970s.
+This project taught me how recommendation systems turn simple rules into ranked results. It also helped me understand how a basic rule-based system is connected to the history of AI, especially earlier symbolic AI systems from the 1960s and 1970s.
 
-I learned that recommendation systems are not only technical systems. They also
-shape what people see, hear, and discover. Even a simple music recommender can
-create bias if it repeats the same genres or moods too often. This connects to
-larger concerns about platform economies, filter bubbles, and echo chambers in
-modern recommendation systems.
+I learned that recommendation systems are not only technical systems. They also shape what people see, hear, and discover. Even a simple music recommender can create bias if it repeats the same genres or moods too often. This connects to larger concerns about platform economies, filter bubbles, and echo chambers in modern recommendation systems.
 
-The most important thing I learned is that the design of the scoring rules
-matters. Small choices, such as giving extra points for exact genre matches, can
-change the recommendations a lot.
+The most important thing I learned is that the design of the scoring rules matters. Small choices, such as giving extra points for exact genre matches, can change the recommendations a lot.
