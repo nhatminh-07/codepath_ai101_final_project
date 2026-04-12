@@ -184,6 +184,9 @@ flowchart TD
 The **Scoring Rule** evaluates one song at a time. The **Ranking Rule** takes
 all scored songs, sorts them, and returns the best `k` recommendations.
 
+### Output images
+![Music recommender terminal output](assets/output.png)
+
 ---
 
 ## Getting Started

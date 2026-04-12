@@ -39,6 +39,7 @@ class Recommender:
         self.songs = songs
 
     def recommend(self, user: UserProfile, k: int = 5) -> List[Song]:
+        """Returns the top k songs sorted by recommendation score."""
         user_prefs = {
             "favorite_genre": user.favorite_genre,
             "favorite_mood": user.favorite_mood,
@@ -52,6 +53,7 @@ class Recommender:
         )[:k]
 
     def explain_recommendation(self, user: UserProfile, song: Song) -> str:
+        """Returns a short explanation for why a song fits the user."""
         user_prefs = {
             "favorite_genre": user.favorite_genre,
             "favorite_mood": user.favorite_mood,
@@ -95,10 +97,7 @@ def load_songs(csv_path: str) -> List[Dict]:
     return songs
 
 def score_song(user_prefs: Dict, song: Dict) -> float:
-    """
-    Scores a single song based on user preferences.
-    Required by src/main.py
-    """
+    """Scores a single song based on user preferences."""
     score = 0.0
 
     preferred_genre = user_prefs.get("genre") or user_prefs.get("favorite_genre")
@@ -121,9 +120,7 @@ def score_song(user_prefs: Dict, song: Dict) -> float:
     return score
 
 def explain_song(user_prefs: Dict, song: Dict) -> str:
-    """
-    Explains why a song was recommended.
-    """
+    """Explains why a song was recommended."""
     reasons = []
 
     preferred_genre = user_prefs.get("genre") or user_prefs.get("favorite_genre")
@@ -152,10 +149,7 @@ def explain_song(user_prefs: Dict, song: Dict) -> str:
     return "This song " + ", ".join(reasons) + "."
 
 def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tuple[Dict, float, str]]:
-    """
-    Functional implementation of the recommendation logic.
-    Required by src/main.py
-    """
+    """Returns the top k songs with scores and explanations."""
     scored_songs = [
         (song, score_song(user_prefs, song), explain_song(user_prefs, song))
         for song in songs
