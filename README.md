@@ -81,6 +81,22 @@ These profiles can be used to test the recommender logic and explanations:
    Wants variety across genres, artists, and languages instead of only close
    matches.
 
+### System Evaluation Profiles
+
+These profiles turn the test ideas above into concrete inputs for evaluating the
+recommender. The numeric values use the dataset scale where `energy` and
+`acousticness` range from `0.0` to `1.0`.
+
+| Case | User profile input | What to check |
+| --- | --- | --- |
+| Energetic Pop Listener | `{"genre": "pop", "mood": "happy", "energy": 0.85, "likes_acoustic": false}` | Top songs should favor pop, happy mood, high energy, and lower acousticness. |
+| Sad Acoustic Listener | `{"genre": "folk", "mood": "sad", "energy": 0.25, "likes_acoustic": true}` | Top songs should favor calmer, more acoustic tracks with sad or reflective moods. |
+| Chill Study Listener | `{"genre": "lofi", "mood": "relaxed", "energy": 0.35, "likes_acoustic": true}` | Top songs should avoid very high energy tracks and prefer relaxed, softer sounds. |
+| Latin Dance Listener | `{"genre": "reggaeton", "mood": "happy", "energy": 0.80, "likes_acoustic": false}` | Top songs should favor energetic Latin-style tracks over quiet acoustic tracks. |
+| Adversarial: Unknown Genre | `{"genre": "made-up-genre", "mood": "happy", "energy": 0.80, "likes_acoustic": false}` | The system should not crash; it should still rank using mood, energy, and acousticness. |
+| Edge Case: Extreme Low Energy | `{"genre": "jazz", "mood": "peaceful", "energy": 0.0, "likes_acoustic": true}` | The system should prefer the calmest available songs and keep scores readable. |
+| Edge Case: Extreme High Energy | `{"genre": "rock", "mood": "intense", "energy": 1.0, "likes_acoustic": false}` | The system should prefer high-energy, less acoustic songs without returning invalid scores. |
+
 ### Song Features
 
 The dataset uses these features:
