@@ -1,304 +1,161 @@
-# Music Recommender Simulation
+# RepoFinder / Model Docs Assistant
 
-## Project Summary
+RepoFinder is a document intelligence assistant that uses a retrieval-augmented generation (RAG) pipeline with an agentic workflow.
 
-This project builds a simple music recommender system using a CSV song catalog.
-The catalog is stored in [data/songs.csv](data/songs.csv), which contains song
-metadata such as title, artist, genre, mood, energy, tempo, valence,
-danceability, and acousticness. The project does not store the actual music
-files.
+It is designed to:
 
-The `load_songs` function in [src/recommender.py](src/recommender.py) reads the
-CSV file and converts each row into a dictionary or `Song` object. The
-recommender then compares each song's features with a user's profile and uses a
-scoring rule to decide which songs should be recommended.
+- Ingest local project documents.
+- Retrieve relevant evidence for a user query.
+- Generate grounded plans, summaries, and recommendations with citations.
+- Evaluate response quality before returning output.
+- Capture human feedback for iterative improvement.
 
-## Scoring Values
+## Why This Project Is Useful
 
-The recommender can start with a simple weighted scoring rule:
+RepoFinder helps users analyze document structure, align tasks with priorities, and recommend practical next steps.
 
-```text
-score = w1 * genre_match + w2 * mood_match + w3 * energy_match + ...
-```
+Example use cases:
 
-The weights (`w1`, `w2`, `w3`, etc.) decide how important each feature is. At
-first, the system can use equal weights. Later, the weights can be adjusted
-through experimentation, such as testing different user profiles and checking
-whether the recommendations feel relevant.
+- Project planning from README + model card + notes.
+- Portfolio/repository review to identify strengths, risks, and missing artifacts.
+- Deadline-aware guidance from schedule documents and supporting notes.
 
-The scoring rule should also reflect the recommender's main values, not only a
-single user's immediate preferences:
+## Core AI Features
 
-```text
-score = relevance + diversity + novelty + fairness
-```
+RepoFinder integrates the following AI features in the main runtime pipeline:
 
-- **Relevance** measures how well a song matches the user's preferences.
-- **Diversity** helps avoid recommending songs that are too similar to each
-  other.
-- **Novelty** helps include songs the user may not already know.
-- **Fairness** helps avoid over-recommending only certain artists, genres,
-  languages, or regions.
+1. Retrieval-Augmented Generation (RAG)
+- The system retrieves top-k document chunks before generation.
+- Answers are grounded in retrieved evidence and include citations.
 
-The final score can combine these values so the recommender balances personal
-fit with broader goals like variety, discovery, and fairness.
+2. Agentic Workflow
+- The agent detects mode (planning/comparison/risk/summary).
+- It creates a short plan, generates an answer, and supports fallback repair when checks fail.
 
----
+3. Reliability/Testing Layer
+- The evaluator checks groundedness, mode correctness, and confidence thresholds.
+- Test coverage includes end-to-end behavior and guardrail validation.
 
-## How The System Works
-
-The recommender uses content-based filtering. This means it recommends songs
-based on the attributes of the songs themselves, such as genre, mood, energy,
-tempo, valence, danceability, and acousticness.
-
-This approach fits the project because the dataset has song features, but it
-does not have real user listening history, likes, skips, ratings, or playlists.
-Because of that, collaborative filtering is not the best choice here.
-
-### Potential User Profiles
-
-These profiles can be used to test the recommender logic and explanations:
-
-1. **Energetic Pop Listener**  
-   Likes pop or v-pop, happy moods, high energy, and high danceability.
-
-2. **Sad Acoustic Listener**  
-   Likes calm songs, sad or heartbroken moods, low energy, and high acousticness.
-
-3. **Dance / Party Listener**  
-   Cares more about danceability, tempo, and valence than genre.
-
-4. **Chill Study Listener**  
-   Prefers relaxed or focused moods, medium-low energy, and lower tempo.
-
-5. **Latin Dance Listener**  
-   Likes reggaeton, salsa, bachata, or Latin pop with high danceability.
-
-6. **Vietnamese Ballad Listener**  
-   Likes v-pop, romantic or melancholy moods, and medium-low energy.
-
-7. **Discovery Listener**  
-   Wants variety across genres, artists, and languages instead of only close
-   matches.
-
-### System Evaluation Profiles
-
-These profiles turn the test ideas above into concrete inputs for evaluating the
-recommender. The numeric values use the dataset scale where `energy` and
-`acousticness` range from `0.0` to `1.0`.
-
-| Case | User profile input | What to check |
-| --- | --- | --- |
-| Energetic Pop Listener | `{"genre": "pop", "mood": "happy", "energy": 0.85, "likes_acoustic": false}` | Top songs should favor pop, happy mood, high energy, and lower acousticness. |
-| Sad Acoustic Listener | `{"genre": "folk", "mood": "sad", "energy": 0.25, "likes_acoustic": true}` | Top songs should favor calmer, more acoustic tracks with sad or reflective moods. |
-| Chill Study Listener | `{"genre": "lofi", "mood": "relaxed", "energy": 0.35, "likes_acoustic": true}` | Top songs should avoid very high energy tracks and prefer relaxed, softer sounds. |
-| Latin Dance Listener | `{"genre": "reggaeton", "mood": "happy", "energy": 0.80, "likes_acoustic": false}` | Top songs should favor energetic Latin-style tracks over quiet acoustic tracks. |
-| Adversarial: Unknown Genre | `{"genre": "made-up-genre", "mood": "happy", "energy": 0.80, "likes_acoustic": false}` | The system should not crash; it should still rank using mood, energy, and acousticness. |
-| Edge Case: Extreme Low Energy | `{"genre": "jazz", "mood": "peaceful", "energy": 0.0, "likes_acoustic": true}` | The system should prefer the calmest available songs and keep scores readable. |
-| Edge Case: Extreme High Energy | `{"genre": "rock", "mood": "intense", "energy": 1.0, "likes_acoustic": false}` | The system should prefer high-energy, less acoustic songs without returning invalid scores. |
-
-### Song Features
-
-The dataset uses these features:
-
-- **Genre**: a category such as pop, rock, jazz, v-pop, reggaeton, salsa, hip hop,
-  country, reggae, or folk.
-- **Mood**: the emotional feeling of the song, such as happy, sad, romantic,
-  melancholy, intense, relaxed, or empowering.
-- **Energy**: a value from `0.0` to `1.0`, where lower values are calmer and
-  higher values are more energetic.
-- **Tempo**: the speed of the song in BPM.
-- **Valence**: a value from `0.0` to `1.0`, where lower values feel sadder or
-  darker and higher values feel happier or more positive.
-- **Danceability**: a value from `0.0` to `1.0`, where higher values mean the
-  song is easier to dance to.
-- **Acousticness**: a value from `0.0` to `1.0`, where higher values mean the
-  song sounds more acoustic or organic.
-
-Genre and mood are categorical labels. In a more advanced system, these labels
-could be predicted from lyrics, audio, or metadata using machine learning
-models. For this project, the labels are already included in the dataset, so the
-recommender can use them directly.
-
-### Algorithm Choice
-
-This project uses a **content-based filtering** approach.
-
-Other possible approaches include:
-
-- **Collaborative filtering**: recommends songs based on what similar users
-  liked. This requires user interaction data, which this project does not have.
-- **Hybrid recommendation**: combines content-based and collaborative filtering.
-  This can be stronger in real systems, but it requires more data.
-
-Since this project only has song metadata and a user profile, content-based
-filtering is the best fit.
-
-### Recommendation Recipe
-
-1. Define a scoring function that takes one song and one user profile.
-2. Compare the song's features with the user's preferences.
-3. Use weighted scores for genre, mood, energy, acousticness, and other features.
-4. Generate a short explanation for each song.
-5. Sort all songs by score.
-6. Return the top `k` recommendations.
-
-The explanation can describe which features contributed most to the score. For
-example: "This song matches your preferred mood and has an energy level close to
-your target."
-
-Potential issues: genre could be over-focused on genre or mood --> The word relationship (BERT) should be marginalized (there are a lot of genres like BERT) --> Your algorithms should be visualized to accept hundreds of different genres and different vector embeddings --> The totals could be vector differences.
-
-### Process Diagram
+## System Diagram
 
 ```mermaid
 flowchart TD
-    A[Start] --> B[Load song catalog from data/songs.csv]
-    B --> C[Create or receive a UserProfile]
+  A[User Input\nquery + optional schedule/docs] --> B[Ingestion and Parser\nvalidate files, extract text, chunk data]
+  B --> C[Retriever\nembedding search + top-k evidence]
+  C --> D[Agent Planner/Executor\nselect task, reason with retrieved context]
+  D --> E[Response Generator\nplan, summary, recommendations + citations]
+  E --> F[User Output]
 
-    C --> D[Read user preferences]
-    D --> D1[Favorite genre]
-    D --> D2[Favorite mood]
-    D --> D3[Target energy]
-    D --> D4[Acoustic preference]
+  D --> G[Evaluator/Test Layer\ngroundedness, mode checks, regression tests]
+  G --> H{Pass checks?}
+  H -- Yes --> F
+  H -- No --> I[Fallback/Repair\nre-retrieve or lower-confidence response]
+  I --> E
 
-    B --> E[Read song features]
-    E --> E1[Genre]
-    E --> E2[Mood]
-    E --> E3[Energy]
-    E --> E4[Tempo BPM]
-    E --> E5[Valence]
-    E --> E6[Danceability]
-    E --> E7[Acousticness]
-
-    D --> F[Scoring Rule]
-    E --> F
-
-    F --> G[Score one song at a time]
-    G --> G1[Genre match score]
-    G --> G2[Mood match score]
-    G --> G3[Energy distance score]
-    G --> G4[Acousticness score]
-    G --> G5[Optional value scores: diversity, novelty, fairness]
-
-    G1 --> H[Combined song score]
-    G2 --> H
-    G3 --> H
-    G4 --> H
-    G5 --> H
-
-    H --> I{More songs to score?}
-    I -- Yes --> G
-    I -- No --> J[Ranking Rule]
-
-    J --> K[Sort songs from highest score to lowest score]
-    K --> L[Apply top-k selection]
-    L --> M[Create explanations for recommended songs]
-    M --> N[Show final recommendations]
+  F --> J[Human Review\nuser verifies accuracy and usefulness]
+  J --> K[Feedback Loop\nupdate prompts, retrieval settings, tests]
+  K --> G
 ```
 
-The **Scoring Rule** evaluates one song at a time. The **Ranking Rule** takes
-all scored songs, sorts them, and returns the best `k` recommendations.
+## Project Structure
 
-### Output images
-![Music recommender terminal output](assets/output.png)
-![Test 1 output](assets/test1.png)
-![Test 2 output](assets/test2.png)
-![Test 3 output](assets/test3.png)
-![Test 4 output](assets/test4.png)
-![Test 5 output](assets/test5.png)
-![Test 6 output](assets/test6.png)
+- `src/repofinder.py`: Core pipeline (ingestion, retriever, agent, evaluator, fallback, feedback).
+- `src/repofinder_main.py`: CLI entrypoint for end-to-end runs.
+- `tests/test_repofinder.py`: RepoFinder tests.
+- `model_card.md`: Model card, risks, and operational requirements.
 
+Legacy files from the earlier music recommender prototype still exist in this repository, but RepoFinder is the primary documented system.
 
----
+## Setup
 
-## Getting Started
+1. Create a virtual environment (recommended):
 
-### Setup
+```bash
+python -m venv .venv
+```
 
-1. Create a virtual environment. This is optional, but recommended.
+2. Activate the environment:
 
-   ```bash
-   python -m venv .venv
-   ```
+On Mac/Linux:
 
-2. Activate the virtual environment.
+```bash
+source .venv/bin/activate
+```
 
-   On Mac or Linux:
+On Windows (PowerShell):
 
-   ```bash
-   source .venv/bin/activate
-   ```
+```powershell
+.venv\Scripts\Activate.ps1
+```
 
-   On Windows:
+3. Install dependencies:
 
-   ```bash
-   .venv\Scripts\activate
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-3. Install dependencies.
+## Run RepoFinder
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+Basic run:
 
-4. Run the app.
+```bash
+python -m src.repofinder_main "Plan the highest-priority tasks for this project" README.md model_card.md
+```
 
-   ```bash
-   python -m src.main
-   ```
+Run with human feedback note:
 
-### Running Tests
+```bash
+python -m src.repofinder_main "What should I do this week before the deadline?" README.md model_card.md --feedback "Useful, but add more schedule detail"
+```
 
-Run the starter tests with:
+## Output Format
+
+The CLI returns JSON with:
+
+- `answer`: grounded response text.
+- `plan`: internal high-level action plan.
+- `citations`: source chunk IDs.
+- `confidence`: numeric confidence score.
+- `evaluation`: pass/fail checks and notes.
+- `retrieval_scores`: top retrieval similarity scores.
+
+## Testing
+
+Run all tests:
 
 ```bash
 pytest
 ```
 
-You can add more tests in `tests/test_recommender.py`.
+Run RepoFinder tests only:
 
----
+```bash
+pytest tests/test_repofinder.py
+```
 
-## Experiments To Try
+Current RepoFinder tests validate:
 
-Use this section to document experiments with the recommender. For example:
+- Unsupported file-type guardrail behavior.
+- End-to-end grounded output with citations.
+- Safe handling for low-relevance queries.
 
-- What happens when the weight on genre changes from `2.0` to `0.5`?
-- What happens when tempo or valence is added to the score?
-- How does the system behave for different user profiles?
-- Does the recommender over-favor one genre, artist, mood, language, or region?
-- Do the explanations match the songs that were recommended?
+## Reproducibility and Guardrails
 
----
+RepoFinder includes:
 
-## Limitations and Risks
+- Deterministic retrieval configuration (`chunk_size`, `overlap`, `top_k`).
+- File validation (supported types, max file size, empty-file handling).
+- Structured logging for ingestion, retrieval, evaluation, and feedback storage.
+- Fallback repair path when initial evaluation fails.
 
-This recommender is useful for classroom exploration, but it has important
-limitations:
+## Known Limitations
 
-- It uses manually assigned song metadata rather than full audio analysis.
-- It does not understand lyrics, cultural meaning, or personal context.
-- It does not use real listening history, skips, likes, or ratings.
-- It may over-favor genres, moods, or languages that appear more often in the
-  dataset.
-- It may treat a user's taste as too simple, even though real people often enjoy
-  different music in different situations.
-- It may recommend popular or familiar music more often than lesser-known songs
-  unless diversity and novelty are included in the ranking rule.
+- Current retriever is lightweight TF-IDF (no external vector database yet).
+- Mode detection is rule-based and may miss ambiguous intent.
+- Planner quality depends on document quality and query specificity.
 
+## Next Steps
 
----
-
-## Reflection
-
-This project shows how recommender systems turn data into predictions. Even a
-simple system has to make choices about what matters: genre, mood, energy,
-danceability, acousticness, diversity, novelty, and fairness.
-
-It also shows where bias can appear. If the dataset includes more songs from one
-language, genre, region, or artist group, the recommender may favor those songs.
-Human judgment still matters because music taste is personal, cultural, and
-context-dependent. A score can help organize choices, but it cannot fully
-understand why a song matters to someone.
-
+- Add schedule/date parsing for stronger deadline-aware planning.
+- Add reranking and richer citation formatting.
+- Add UI layer (Streamlit) for multi-file upload and interactive querying.

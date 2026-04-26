@@ -13,7 +13,7 @@ This project uses a retrieval-augmented generation (RAG) pipeline with an agenti
 - Agent layer: planner/executor pattern that can decide when to retrieve, summarize, compare priorities, and produce an action plan.
 - Output layer: structured responses for roadmap, risks, and next-step recommendations.
 
-The system is optimized for planning and decision support, not for autonomous execution of high-risk actions.
+The system is optimized for planning and decision support and is not intended for autonomous execution of high-risk actions.
 
 ### System Diagram (RepoFinder)
 
@@ -42,14 +42,11 @@ Data flow summary: input documents and queries are parsed, retrieved, reasoned o
 
 RepoFinder is intended to analyze document structure, align tasks with priorities, and recommend next steps for technical projects.
 
-Primary use cases:
+It is designed to help users:
 
-1. Program Prep Assistant (CodePath AI coursework):
-  Helps turn class goals and project requirements into scoped weekly milestones, deliverables, and reflection notes.
-2. Fellowship Readiness Assistant (MLH-style applications):
-  Helps map project artifacts (README, architecture notes, demo script) to signals that reviewers look for: engineering rigor, collaboration readiness, and real-world impact.
-3. Builder Residency Pitch Assistant (Klaviyo-style builder programs):
-  Helps frame a project demo around problem choice, technical decisions, AI workflow, tradeoffs, and shipping mindset.
+- Analyze many repositories or mixed file collections at scale.
+- Organize and prioritize tasks within a repository.
+- Review project portfolios to identify patterns, strengths, risks, and missing artifacts.
 
 Out of scope:
 
@@ -59,7 +56,7 @@ Out of scope:
 
 ## 4. Training and Adaptation Strategy
 
-Current version is not full model fine-tuning. It uses retrieval and prompting adaptation.
+The current version does not use full model fine-tuning. It uses retrieval and prompt-level adaptation.
 
 Adaptation stages:
 
@@ -88,7 +85,7 @@ Data quality requirements:
 
 ## 6. Evaluation
 
-Use an eval suite with three slices (one per application mode):
+The evaluation suite uses three slices (one per application mode):
 
 1. Groundedness:
   Does each claim map to retrieved evidence?
@@ -141,7 +138,7 @@ Reproducibility requirements:
 - Deterministic configuration for retrieval parameters (chunk size, overlap, top-k).
 - Pinned dependencies in requirements file.
 - Documented environment variables in an example env file.
-- One-command local run path and one-command test path.
+- Single-command local run path and single-command test path.
 
 Logging and guardrails:
 
@@ -162,3 +159,4 @@ Minimum acceptance checks before submission:
 
 - v1.0 (2026-04-21): Reframed from music recommendation template to RepoFinder RAG + agentic planning model card with three application tracks.
 - v1.1 (2026-04-23): Added explicit rubric alignment, integrated pipeline proof, and reproducibility/guardrail requirements for DocuBot-style evaluation.
+- v1.2 (2026-04-26): Polished language for consistency and clarity in intended use, evaluation, and operational wording.
