@@ -1,112 +1,164 @@
-# Model Card: Music Recommender Simulation
+# Model Card: RepoFinder / Model Docs
 
 ## 1. Model Name
 
-**VibeFinder 1.0**
+RepoFinder (Model Docs Assistant) v1.0
 
----
+## 2. Model Type and Architecture
 
-## 2. Intended Use
+This project uses a retrieval-augmented generation (RAG) pipeline with an agentic workflow.
 
-VibeFinder 1.0 is designed to recommend songs from a CSV catalog based on a simple user profile. It returns the top 5 songs that best match the user's selected genre, mood, target energy, and acoustic preference.
+- Base model: general-purpose LLM (inference-time reasoning, no custom pretraining).
+- Retrieval layer: document chunking + embeddings + vector search over repository and planning documents.
+- Agent layer: planner/executor pattern that can decide when to retrieve, summarize, compare priorities, and produce an action plan.
+- Output layer: structured responses for roadmap, risks, and next-step recommendations.
 
-This project is intended for learning and experimentation. It is not meant to replace professional music recommendation systems used by large streaming platforms.
+The system is optimized for planning and decision support, not for autonomous execution of high-risk actions.
 
----
+### System Diagram (RepoFinder)
 
-## 3. How the Model Works
+```mermaid
+flowchart TD
+  A[User Input\nquery + optional schedule/docs] --> B[Ingestion and Parser\nvalidate files, extract text, chunk data]
+  B --> C[Retriever\nembedding search + top-k evidence]
+  C --> D[Agent Planner/Executor\nselect task, reason with retrieved context]
+  D --> E[Response Generator\nplan, summary, recommendations + citations]
+  E --> F[User Output]
 
-This system is a beginner-friendly rule-based recommender. It does not train on user history or learn from large datasets. Instead, it uses human-written scoring rules to compare each song with the user's preferences.
+  D --> G[Evaluator/Test Layer\ngroundedness, mode checks, regression tests]
+  G --> H{Pass checks?}
+  H -- Yes --> F
+  H -- No --> I[Fallback/Repair\nre-retrieve or lower-confidence response]
+  I --> E
 
-The model uses these song features:
+  F --> J[Human Review\nuser verifies accuracy and usefulness]
+  J --> K[Feedback Loop\nupdate prompts, retrieval settings, tests]
+  K --> G
+```
 
-- Genre
-- Mood
-- Energy
-- Acousticness
+Data flow summary: input documents and queries are parsed, retrieved, reasoned over by the agent, and then evaluated before final output. Human review and test results feed improvements back into retrieval, prompting, and evaluation settings.
 
-The current scoring logic works like this:
+## 3. Intended Use
 
-- Add 2 points when the song genre exactly matches the user's preferred genre.
-- Add 2 points when the song mood exactly matches the user's preferred mood.
-- Add up to 1 point when the song energy is close to the user's target energy.
-- Add up to 1 point based on whether the user prefers acoustic or less acoustic
-  music.
+RepoFinder is intended to analyze document structure, align tasks with priorities, and recommend next steps for technical projects.
 
-After every song is scored, the system sorts the songs from highest score to
-lowest score and returns the top results with short explanations.
+Primary use cases:
 
----
+1. Program Prep Assistant (CodePath AI coursework):
+  Helps turn class goals and project requirements into scoped weekly milestones, deliverables, and reflection notes.
+2. Fellowship Readiness Assistant (MLH-style applications):
+  Helps map project artifacts (README, architecture notes, demo script) to signals that reviewers look for: engineering rigor, collaboration readiness, and real-world impact.
+3. Builder Residency Pitch Assistant (Klaviyo-style builder programs):
+  Helps frame a project demo around problem choice, technical decisions, AI workflow, tradeoffs, and shipping mindset.
 
-## 4. Data
+Out of scope:
 
-The recommender uses the dataset in `data/songs.csv`. The dataset contains 340 songs with metadata such as title, artist, genre, mood, energy, tempo, valence, danceability, and acousticness.
+- Legal, immigration, or hiring guarantees.
+- Final admissions or recruiting decisions.
+- Unverified claims about program outcomes.
 
-Example genres include rock, pop, V-pop, K-pop, hip hop, synth pop, soul, funk, jazz, disco, electronic music, alternative rock, and indie rock.
+## 4. Training and Adaptation Strategy
 
----
+Current version is not full model fine-tuning. It uses retrieval and prompting adaptation.
 
-## 5. Strengths
+Adaptation stages:
 
-The main strength of this system is that it is easy to understand and explain. Because the rules are visible in the code, users can see why a song was recommended. This makes the project useful for learning how recommender systems use features, weights, ranking, and explanations.
+1. Retrieval tuning (first priority):
+  Adjust chunk size, overlap, metadata tags, and reranking to improve grounded answers.
+2. Prompt and agent policy tuning:
+  Add explicit role instructions per application mode, tool-routing rules, and refusal/safety boundaries.
+3. Evaluation-driven iteration:
+  Improve with failed examples from offline eval sets and user feedback.
+4. Optional lightweight supervised fine-tuning later:
+  Only after collecting enough high-quality prompt-answer pairs for each mode.
 
-The system can produce reasonable results when a user's preferences are simple, such as wanting happy pop songs, calm acoustic songs, or high-energy music.
+## 5. Data
 
----
+Recommended corpus categories for this project:
 
-## 6. Limitations and Bias
+- Repository docs: README, model card, architecture docs, issues, milestones.
+- Program-facing docs: application prompts, rubric notes, timeline constraints, and personal reflections.
+- Evidence artifacts: demo scripts, benchmark tables, screenshots, and experiment logs.
 
-The system can create filter bubbles because it gives large bonuses for exact genre and mood matches. For example, if a user says they like pop music, the system may keep recommending pop songs and ignore nearby genres that could also fit the user's taste.
+Data quality requirements:
 
-The model also treats labels as exact matches. This means `pop`, `v-pop`, and `synth pop` are handled as separate genres even though they may be related. A more advanced system could use genre similarity, word embeddings, or grouped genre families to make softer comparisons.
+- Source traceability for every chunk.
+- Timestamp/version metadata.
+- Removal of sensitive personal data before indexing.
 
-The current scoring logic may not fully represent users who care about features like danceability, tempo, or valence. For example, a Dance / Party Listener may care more about tempo and danceability than genre, but those features are not currently part of the score.
+## 6. Evaluation
 
-The energy score is based on distance from the user's target energy. This works for simple cases, but genre and mood bonuses can overpower energy. As a result, a song with the right genre and mood could rank above a song with a better energy match.
+Use an eval suite with three slices (one per application mode):
 
-The system does not learn from skips, likes, playlists, listening history, or changes in taste over time.
+1. Groundedness:
+  Does each claim map to retrieved evidence?
+2. Planning quality:
+  Are milestones concrete, feasible, and priority-aware?
+3. Mode correctness:
+  Does output match the selected track (CodePath vs MLH vs Builder Residency)?
+4. Safety and integrity:
+  Avoid fabricated requirements, unsupported claims, and overconfident guidance.
 
----
+Suggested metrics:
 
-## 7. Evaluation
+- Citation hit rate.
+- Hallucination rate.
+- Plan completeness score.
+- Human rubric score (clarity, usefulness, credibility).
 
-The system was evaluated with several user profiles from the README, including normal use cases, adversarial cases, and edge cases.
+## 7. Strengths
 
-Tested profiles included:
+- Strong at turning scattered docs into structured plans.
+- Clear reasoning trace when citations are enabled.
+- Flexible across education, fellowship, and residency positioning.
+- Agentic workflow supports multi-step analysis instead of single-shot answers.
 
-- Energetic Pop Listener: expects happy, high-energy pop songs.
-- Sad Acoustic Listener: expects lower-energy acoustic songs.
-- Chill Study Listener: expects relaxed, medium-low energy songs.
-- Latin Dance Listener: expects energetic, less acoustic dance songs.
-- Unknown Genre User: tests whether the system still works when the genre does
-  not exist in the dataset.
-- Extreme Low Energy User: tests whether the system can recommend very calm
-  songs.
-- Extreme High Energy User: tests whether the system can recommend very intense
-  songs.
+## 8. Limitations and Risks
 
-The tests checked whether the highest-ranked songs matched the expected genre, mood, energy level, and acoustic preference. The tests also checked that the system returns readable explanations and does not crash on unusual inputs.
+- Quality depends on retrieval quality; missing documents lead to weak plans.
+- Program information can become outdated over time.
+- Agent loops can over-iterate without hard stopping rules.
+- Domain drift risk when the user asks beyond indexed evidence.
 
----
+Mitigations:
 
-## 8. Future Work
+- Require source-backed claims.
+- Add confidence labels for uncertain recommendations.
+- Enforce freshness checks and metadata-aware retrieval.
+- Cap planning iterations and require explicit completion criteria.
 
-Some improvements I could make in the future include:
+## 9. Responsible Use
 
-- Add more data and more song features, such as tempo, valence, danceability, language, region, and popularity.
-- Add more scoring factors so the system can reward both exact matches and close matches.
-- Fine-tune the scoring weights after testing the recommender with different user profiles.
-- Improve genre and mood matching by representing them as vectors instead of exact words. This would let the system understand that related genres, such as  `pop`, `v-pop`, and `synth pop`, have shared meanings.
-- Add diversity rules so the top results do not all come from the same genre, mood, or artist.
+- Always verify deadlines and eligibility directly from official sources.
+- Treat generated plans as advisory, not authoritative.
+- Do not fabricate achievements, metrics, or affiliations.
+- Keep private application materials secure and minimally retained.
 
-In a larger real-world system, these improvements could be learned from user data, but this project keeps the logic rule-based so it remains easier to understand.
+## 10. Reproducibility, Guardrails, and Operations
 
----
+Reproducibility requirements:
 
-## 9. Personal Reflection
+- Deterministic configuration for retrieval parameters (chunk size, overlap, top-k).
+- Pinned dependencies in requirements file.
+- Documented environment variables in an example env file.
+- One-command local run path and one-command test path.
 
-This project taught me how recommendation systems turn simple rules into ranked results. It also helped me understand how a basic rule-based system is connected to the history of AI, especially earlier symbolic AI systems from the 1960s and 1970s.
+Logging and guardrails:
 
-I learned that recommendation systems are not only technical systems. They also shape what people see, hear, and discover. Even a simple music recommender can create bias if it repeats the same genres or moods too often. This connects to larger concerns about platform economies, filter bubbles, and echo chambers in modern recommendation systems.
+- Structured logs for ingestion, retrieval hits, selected context, and final decision path.
+- Input validation for file type, size limits, and empty/corrupted files.
+- Safe failure behavior when retrieval returns low-confidence or no relevant context.
+- Redaction path for sensitive content before indexing.
 
-The most important thing I learned is that the design of the scoring rules matters. Small choices, such as giving extra points for exact genre matches, can change the recommendations a lot.
+Minimum acceptance checks before submission:
+
+1. Fresh clone setup succeeds from README instructions.
+2. End-to-end RAG query returns answer with source citations.
+3. Agent mode produces a step-by-step prioritized plan from schedule input.
+4. Test suite passes for at least one scenario in each application track.
+5. Error path is user-friendly for invalid input or missing data.
+
+## 11. Versioning and Change Log
+
+- v1.0 (2026-04-21): Reframed from music recommendation template to RepoFinder RAG + agentic planning model card with three application tracks.
+- v1.1 (2026-04-23): Added explicit rubric alignment, integrated pipeline proof, and reproducibility/guardrail requirements for DocuBot-style evaluation.
