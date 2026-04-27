@@ -1,189 +1,168 @@
-# RepoFinder / Model Docs Assistant
+# RepoFinder: RAG Document Assistant for Project Planning
 
-RepoFinder is a document intelligence assistant that uses a retrieval-augmented generation (RAG) pipeline with an agentic workflow.
+## Author
 
-It is designed to:
+Tran Ngoc Nhat Minh
 
-- Ingest local project documents.
-- Retrieve relevant evidence for a user query.
-- Generate grounded plans, summaries, and actionable next steps with citations.
-- Evaluate response quality before returning output.
-- Capture human feedback for iterative improvement.
+## Portfolio Artifact
 
-## Why This Project Is Useful
+- GitHub repository: add your public repo URL here
+- Loom walkthrough: add your Loom URL here
 
-RepoFinder helps users analyze document structure, align tasks with priorities, and recommend practical next steps.
+## Original Project (Modules 1-3)
 
-Example use cases:
+Original project name: Project 3 - Music Recommender Systems.
 
-- Project planning from README + model card + notes.
-- Portfolio/repository review to identify strengths, risks, and missing artifacts.
-- Deadline-aware guidance from schedule documents and supporting notes.
+The original project goal was to recommend songs based on user preferences like genre, mood, and energy level. It focused on ranking results and explaining why a song matched a profile. That baseline gave me a working recommendation pipeline, which I later adapted into a retrieval-based assistant for project documents.
 
-## Core AI Features
+## Title and Summary
 
-RepoFinder integrates the following AI features in the main runtime pipeline:
+RepoFinder is a local document intelligence assistant that ingests project files and returns grounded, actionable responses with citations. It uses a lightweight RAG workflow plus an agent-style planner to organize next steps from evidence, not from free-form guessing. This matters because teams and students often have scattered notes and deadlines, and need clear action plans from the actual documents they already have.
 
-1. Retrieval-Augmented Generation (RAG)
-- The system retrieves top-k document chunks before generation.
-- Answers are grounded in retrieved evidence and include citations.
-
-2. Agentic Workflow
-- The agent detects mode (planning/comparison/risk/summary).
-- It creates a short plan, generates an answer with explicit next actions, and supports fallback repair when checks fail.
-
-3. Reliability/Testing Layer
-- The evaluator checks groundedness, mode correctness, and confidence thresholds.
-- Test coverage includes end-to-end behavior and guardrail validation.
-
-## System Diagram
+## Architecture Overview
 
 ```mermaid
 flowchart TD
-  A[User Input\nquery + optional schedule/docs] --> B[Ingestion and Parser\nvalidate files, extract text, chunk data]
-  B --> C[Retriever\nembedding search + top-k evidence]
-  C --> D[Agent Planner/Executor\nselect task, reason with retrieved context]
-  D --> E[Response Generator\nplan, summary, recommendations + citations]
+  A[User Input\nquery + optional docs] --> B[Ingestion Parser\nvalidate files, extract text, chunk]
+  B --> C[Retriever\nTF-IDF similarity + top-k]
+  C --> D[Agent Planner/Executor\ndetect mode and produce answer]
+  D --> E[Response\nrecommendation + next actions + citations]
   E --> F[User Output]
 
-  D --> G[Evaluator/Test Layer\ngroundedness, mode checks, regression tests]
+  D --> G[Evaluator\ngroundedness, mode, confidence checks]
   G --> H{Pass checks?}
   H -- Yes --> F
-  H -- No --> I[Fallback/Repair\nre-retrieve or lower-confidence response]
-  I --> E
-
-  F --> J[Human Review\nuser verifies accuracy and usefulness]
-  J --> K[Feedback Loop\nupdate prompts, retrieval settings, tests]
-  K --> G
+  H -- No --> I[Fallback Repair\nre-retrieve with larger top-k]
+  I --> D
 ```
+
+Short explanation: RepoFinder validates and chunks files first, retrieves top-k relevant evidence, then generates an answer with a Next Actions section. The evaluator checks quality signals before returning output, and a fallback path retries retrieval when the first pass fails checks.
 
 ## Project Structure
 
-- `src/repofinder.py`: Core pipeline (ingestion, retriever, agent, evaluator, fallback, feedback).
-- `src/repofinder_main.py`: CLI entrypoint for end-to-end runs.
-- `tests/test_repofinder.py`: RepoFinder tests.
-- `model_card.md`: Model card, risks, and operational requirements.
+- src/repofinder.py: Core pipeline (ingestion, retrieval, planner, evaluator, fallback)
+- src/repofinder_main.py: CLI entrypoint
+- src/streamlit_app.py: Streamlit UI for uploads and interactive runs
+- tests/test_repofinder.py: RepoFinder tests
+- tests/test_recommender.py: Legacy recommender tests from original project
+- model_card.md: Model details, risks, and deployment notes
 
-Legacy files from the earlier music recommender prototype still exist in this repository, but RepoFinder is the primary documented system.
+## Setup Instructions
 
-## Setup
-
-1. Create a virtual environment (recommended):
+1. Clone the repository and move into the project directory.
+2. Create a virtual environment.
 
 ```bash
 python -m venv .venv
 ```
 
-2. Activate the environment:
+3. Activate the virtual environment.
 
-On Mac/Linux:
-
-```bash
-source .venv/bin/activate
-```
-
-On Windows (PowerShell):
+Windows PowerShell:
 
 ```powershell
 .venv\Scripts\Activate.ps1
 ```
 
-3. Install dependencies:
+Mac/Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+4. Install dependencies.
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Run RepoFinder
-
-Basic run:
-
-```bash
-python -m src.repofinder_main "Plan the highest-priority tasks for this project" README.md model_card.md
-```
-
-Run with human feedback note:
-
-```bash
-python -m src.repofinder_main "What should I do this week before the deadline?" README.md model_card.md --feedback "Useful, but add more schedule detail"
-```
-
-## Run Streamlit UI
-
-Launch the web app:
-
-```bash
-streamlit run src/streamlit_app.py
-```
-
-Then open the local URL shown in your terminal (usually `http://localhost:8501`).
-
-### UI Workflow
-
-1. Enter a query in the text box.
-2. Upload one or more `.md`, `.txt`, `.csv`, or `.pdf` files.
-3. Optionally keep `README.md` and `model_card.md` enabled from the sidebar defaults.
-4. Click **Run RepoFinder**.
-5. Review answer, plan, citations, confidence, and evaluation checks.
-
-### Suggested Demo Inputs (for presentations)
-
-- Planning case: `Plan the highest-priority tasks for this project`
-- Deadline case: `What should I do this week before the deadline?`
-- Guardrail case: `Explain marine biology taxonomy in coral ecosystems`
-
-The third case demonstrates low-relevance behavior and evaluation signals.
-
-## Output Format
-
-The CLI returns JSON with:
-
-- `answer`: grounded response text.
-- `plan`: internal high-level action plan.
-- `answer` includes a `Next Actions` section with concrete steps.
-- `citations`: source chunk IDs.
-- `confidence`: numeric confidence score.
-- `evaluation`: pass/fail checks and notes.
-- `retrieval_scores`: top retrieval similarity scores.
-
-## Testing
-
-Run all tests:
+5. Run tests.
 
 ```bash
 pytest
 ```
 
-Run RepoFinder tests only:
+## Run the App
+
+### Option A: CLI
 
 ```bash
-pytest tests/test_repofinder.py
+python -m src.repofinder_main "Plan the highest-priority tasks for this project" README.md model_card.md
 ```
 
-Current RepoFinder tests validate:
+Supports input files: .md, .txt, .csv, .pdf
 
-- Unsupported file-type guardrail behavior.
-- PDF ingestion support.
-- End-to-end grounded output with citations.
-- Safe handling for low-relevance queries.
+### Option B: Streamlit UI
 
-## Reproducibility and Guardrails
+```bash
+streamlit run src/streamlit_app.py
+```
 
-RepoFinder includes:
+Then open the local URL shown in terminal (usually http://localhost:8501), upload files, enter a query, and click Run RepoFinder.
 
-- Deterministic retrieval configuration (`chunk_size`, `overlap`, `top_k`).
-- File validation (supported types, max file size, empty-file handling).
-- Structured logging for ingestion, retrieval, evaluation, and feedback storage.
-- Fallback repair path when initial evaluation fails.
+## Sample Interactions
 
-## Known Limitations
+Example 1
 
-- Current retriever is lightweight TF-IDF (no external vector database yet).
-- Mode detection is rule-based and may miss ambiguous intent.
-- Planner quality depends on document quality and query specificity.
+- Input:
 
-## Next Steps
+```bash
+python -m src.repofinder_main "Plan the highest-priority tasks for this project" README.md model_card.md
+```
 
-- Add schedule/date parsing for stronger deadline-aware planning.
-- Add reranking and richer citation formatting.
-- Add UI layer (Streamlit) for multi-file upload and interactive querying.
+- Result highlights:
+- Mode: planning
+- Next action: prioritize the next actionable milestone from README.md
+- Confidence: 0.538
+- Evaluation passed: true
+- First citation: README.md#0
+
+Example 2
+
+- Input:
+
+```bash
+python -m src.repofinder_main "What should I do this week before the deadline?" README.md model_card.md
+```
+
+- Result highlights:
+- Mode: planning
+- Next action: prioritize the next actionable milestone from README.md
+- Confidence: 0.527
+- Evaluation passed: true
+- First citation: README.md#0
+
+Example 3
+
+- Input:
+
+```bash
+python -m src.repofinder_main "Explain marine biology taxonomy in coral ecosystems" README.md model_card.md
+```
+
+- Result highlights:
+- Mode: summary
+- Next action: system returns generic action guidance based on available evidence
+- Confidence: 0.511
+- Evaluation passed: true
+- First citation: model_card.md#12
+
+## Design Decisions and Trade-Offs
+
+- Chose TF-IDF retrieval instead of external vector DB to keep setup simple and fully local.
+- Added evaluator checks (groundedness, mode, confidence) to reduce ungrounded responses.
+- Added fallback retrieval with higher top-k to improve reliability when first pass is weak.
+- Added Streamlit for usability so non-technical users can run the system without CLI.
+- Trade-off: lightweight retrieval is easy to run but less semantically rich than embedding-based search.
+
+## Testing Summary
+
+- Current status: 13 tests passing.
+- What worked: ingestion guardrails, end-to-end planning output, low-relevance query handling, PDF ingestion support, and actionable output formatting.
+- What did not work initially: import-path collection issues and weakly actionable recommendations.
+- What I changed: fixed package/test collection setup, added Next Actions generation, and added PDF support.
+- Key learning: reliability improves when evaluation and testing are designed as first-class features, not afterthoughts.
+
+## Reflection
+
+This project changed how I think about AI engineering. I learned that building a useful system is not just about generating answers, but about grounding outputs in evidence, adding guardrails, and validating behavior with tests. Through this process, I became more aware of technical debt and reasoning gaps in early designs, and I improved by turning those weaknesses into concrete fixes such as better evaluation checks, actionable outputs, and more reliable file support.
