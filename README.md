@@ -108,6 +108,32 @@ Run with human feedback note:
 python -m src.repofinder_main "What should I do this week before the deadline?" README.md model_card.md --feedback "Useful, but add more schedule detail"
 ```
 
+## Run Streamlit UI
+
+Launch the web app:
+
+```bash
+streamlit run src/streamlit_app.py
+```
+
+Then open the local URL shown in your terminal (usually `http://localhost:8501`).
+
+### UI Workflow
+
+1. Enter a query in the text box.
+2. Upload one or more `.md`, `.txt`, or `.csv` files.
+3. Optionally keep `README.md` and `model_card.md` enabled from the sidebar defaults.
+4. Click **Run RepoFinder**.
+5. Review answer, plan, citations, confidence, and evaluation checks.
+
+### Suggested Demo Inputs (for presentations)
+
+- Planning case: `Plan the highest-priority tasks for this project`
+- Deadline case: `What should I do this week before the deadline?`
+- Guardrail case: `Explain marine biology taxonomy in coral ecosystems`
+
+The third case demonstrates low-relevance behavior and evaluation signals.
+
 ## Output Format
 
 The CLI returns JSON with:
