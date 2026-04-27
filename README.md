@@ -6,7 +6,7 @@ Tran Ngoc Nhat Minh
 
 ## Portfolio Artifact
 
-- GitHub repository: add your public repo URL here
+- [GitHub repository](https://github.com/nhatminh-07/codepath_ai101_final_project)
 - Loom walkthrough: add your Loom URL here
 
 ## Original Project (Modules 1-3)
@@ -165,4 +165,18 @@ python -m src.repofinder_main "Explain marine biology taxonomy in coral ecosyste
 
 ## Reflection
 
-This project changed how I think about AI engineering. I learned that building a useful system is not just about generating answers, but about grounding outputs in evidence, adding guardrails, and validating behavior with tests. Through this process, I became more aware of technical debt and reasoning gaps in early designs, and I improved by turning those weaknesses into concrete fixes such as better evaluation checks, actionable outputs, and more reliable file support.
+This project changed how I think about AI engineering. I learned that a useful AI system is not just about generating answers, but about grounding outputs in evidence, adding guardrails, and validating behavior with tests.
+
+### Reflection and Ethics
+
+1. What are the limitations or biases in this system?
+
+RepoFinder is currently strongest on local document retrieval and basic planning prompts, but it still has limitations. It can ground some deadline/date-related tasks from the provided files, yet the quality of generated action plans depends heavily on document quality and query clarity. The retriever is TF-IDF based, so it may miss deeper semantic meaning compared to embedding-based retrieval, and outputs may reflect bias in the source documents.
+
+2. Could this AI be misused, and how would I prevent that?
+
+Yes. The system could be misused through prompt injection, malicious files, or over-trusting outputs without verification, especially in large repositories. To reduce this risk, I would enforce strict input validation, stronger file trust boundaries, citation-first responses, and human review before taking high-impact actions. I would also add stronger prompt-injection detection and permission controls for any future automation features.
+
+3. What surprised me while testing reliability?
+
+What surprised me most was how often small system choices changed reliability outcomes. Adding explicit evaluation checks, fallback retrieval, and clearer Next Actions formatting produced significantly more stable and useful responses than prompt wording changes alone. This showed me that reliability engineering, not just model behavior, is the core of building responsible AI applications.
