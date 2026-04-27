@@ -98,7 +98,13 @@ Supports input files: .md, .txt, .csv, .pdf
 streamlit run src/streamlit_app.py
 ```
 
-Then open the local URL shown in terminal (usually http://localhost:8501), upload files, enter a query, and click Run RepoFinder.
+Then open the local URL shown in terminal (usually http://localhost:8501).
+
+By default, only your uploaded files are indexed (README.md is excluded to improve grounding on your actual content).
+
+Optionally enable model_card.md as a reference from the sidebar.
+
+Upload files, enter a query, and click Run RepoFinder.
 
 ## Sample Interactions
 

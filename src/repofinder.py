@@ -199,13 +199,19 @@ class Retriever:
             return 0.0
         return dot / (norm_a * norm_b)
 
-    def search(self, query: str, top_k: int = 3) -> List[RetrievalHit]:
+    def search(self, query: str, top_k: int = 3, uploaded_sources: Sequence[str] | None = None) -> List[RetrievalHit]:
         query_tokens = self._tokenize(query)
         query_vec = self._tfidf_vector(query_tokens)
 
         scored: List[RetrievalHit] = []
         for chunk, vec in zip(self.chunks, self.chunk_vectors):
             score = self._cosine(query_vec, vec)
+            
+            # Boost score for uploaded files (non-README/model_card)
+            if uploaded_sources:
+                if any(src in chunk.source for src in uploaded_sources):
+                    score = min(score + 0.15, 1.0)
+            
             scored.append(RetrievalHit(chunk=chunk, score=score))
 
         scored.sort(key=lambda hit: hit.score, reverse=True)
@@ -220,6 +226,21 @@ class AgentPlannerExecutor:
     def run(self, query: str, hits: Sequence[RetrievalHit]) -> AgentResult:
         mode = self._detect_mode(query)
         top_hits = [hit for hit in hits if hit.score > 0.0]
+        
+        # Grounding guardrail: if retrieval is weak, don't fabricate
+        max_score = top_hits[0].score if top_hits else 0.0
+        if max_score < 0.25:
+            answer = (
+                "Not enough relevant content in the provided documents to create a grounded plan. "
+                "Please upload documents that contain specific task details, timelines, or project descriptions."
+            )
+            plan = [
+                f"Detected mode: {mode}",
+                "Grounding threshold not met (max retrieval score < 0.25)",
+                "Unable to generate action items from available evidence.",
+            ]
+            return AgentResult(plan=plan, answer=answer, citations=[], confidence=0.2)
+        
         action_items = self._build_action_items(mode, top_hits)
         plan = [
             f"Detected mode: {mode}",
@@ -239,7 +260,8 @@ class AgentPlannerExecutor:
         citations = []
         for hit in top_hits[:3]:
             snippet = hit.chunk.text[:180].strip()
-            evidence_lines.append(f"- ({hit.score:.2f}) {snippet}")
+            source_name = Path(hit.chunk.source).name
+            evidence_lines.append(f"- ({hit.score:.2f}) [{source_name}] {snippet}")
             citations.append(hit.chunk.chunk_id)
 
         recommendation = self._build_recommendation(mode, query, top_hits)
@@ -284,66 +306,67 @@ class AgentPlannerExecutor:
 
     def _build_action_items(self, mode: str, hits: Sequence[RetrievalHit]) -> List[str]:
         if not hits:
-            return ["Provide more specific files or query terms to generate grounded actions."]
+            return self._mode_fallback_actions(mode)
 
         candidate_sentences: List[str] = []
         for hit in hits[:3]:
             candidate_sentences.extend(re.split(r"[.!?]", hit.chunk.text))
 
-        action_verbs = {
-            "add",
-            "build",
-            "prioritize",
-            "run",
-            "record",
-            "prepare",
-            "test",
-            "update",
-            "include",
-            "implement",
-            "plan",
-        }
+        action_verbs = {"plan", "prioritize", "build", "define", "create", "implement", "prepare", "schedule", "assign"}
         extracted: List[str] = []
         seen: set[str] = set()
+        
         for sentence in candidate_sentences:
-            cleaned = re.sub(r"\s+", " ", sentence).strip(" -\n\t")
-            if not cleaned:
+            if "```" in sentence or "http" in sentence.lower():
                 continue
+            cleaned = re.sub(r"\s+", " ", sentence).strip(" -\n\t`")
+            words = cleaned.split()
+            
+            if not cleaned or len(cleaned) < 20 or len(words) < 5:
+                continue
+            
             lowered = cleaned.lower()
-            if any(f" {verb} " in f" {lowered} " for verb in action_verbs):
-                item = cleaned[0].upper() + cleaned[1:]
-                if item not in seen:
-                    extracted.append(item)
-                    seen.add(item)
+            has_action_verb = any(f" {verb} " in f" {lowered} " or lowered.startswith(f"{verb} ") for verb in action_verbs)
+            if not has_action_verb:
+                continue
+            
+            item = cleaned[0].upper() + cleaned[1:] if cleaned else cleaned
+            if item not in seen and len(item) < 120:
+                extracted.append(item)
+                seen.add(item)
+            
             if len(extracted) >= 3:
                 break
 
-        if extracted:
+        if extracted and len(extracted) >= 3:
             return extracted
-
+        
+        return self._mode_fallback_actions(mode)
+    
+    def _mode_fallback_actions(self, mode: str) -> List[str]:
         if mode == "planning":
             return [
-                "Define the top three deliverables for this week with clear owners.",
-                "Convert each deliverable into a day-by-day checklist.",
-                "Run a final validation pass and capture demo evidence.",
+                "Define the top three deliverables for this week with clear owners and deadlines.",
+                "Convert each deliverable into a day-by-day execution checklist.",
+                "Schedule a final validation pass and prepare demo evidence.",
             ]
         if mode == "comparison":
             return [
-                "List the shared points across top sources.",
-                "Capture key differences with one sentence each.",
-                "Recommend which option to prioritize and why.",
+                "List the shared themes across top sources.",
+                "Identify key differences and unique strengths per source.",
+                "Recommend which option to prioritize based on evidence.",
             ]
         if mode == "risk_review":
             return [
-                "List the top risks by impact and urgency.",
-                "Define one mitigation step per risk.",
+                "List the top risks ranked by impact and urgency.",
+                "Define one concrete mitigation step per risk.",
                 "Assign an owner and deadline for each mitigation.",
             ]
 
         return [
             "Summarize the top evidence in plain language.",
-            "Extract two to three actionable decisions.",
-            "Identify missing information needed for a stronger answer.",
+            "Extract two to three concrete decisions from the evidence.",
+            "Identify information gaps needed for a stronger answer.",
         ]
 
 
@@ -393,7 +416,11 @@ class RepoFinderSystem:
         chunks = self.ingestion.ingest(file_paths)
 
         retriever = Retriever(chunks)
-        hits = retriever.search(query, top_k=self.top_k)
+        # Identify uploaded vs default files to prioritize user uploads
+        default_files = {"README.md", "model_card.md"}
+        uploaded_sources = [fp for fp in file_paths if not any(df in fp for df in default_files)]
+        
+        hits = retriever.search(query, top_k=self.top_k, uploaded_sources=uploaded_sources if uploaded_sources else None)
 
         agent = AgentPlannerExecutor()
         result = agent.run(query, hits)

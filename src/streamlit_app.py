@@ -29,7 +29,7 @@ def _save_uploaded_files(uploaded_files, temp_dir: Path) -> List[str]:
 
 
 def _collect_local_project_files() -> List[str]:
-    candidates = [Path("README.md"), Path("model_card.md")]
+    candidates = [Path("model_card.md")]
     return [str(path) for path in candidates if path.exists()]
 
 
@@ -51,8 +51,8 @@ def render() -> None:
         st.header("Run Settings")
         top_k = st.slider("Retriever top-k", min_value=1, max_value=10, value=3)
         include_local_defaults = st.checkbox(
-            "Include README.md + model_card.md from this repo",
-            value=True,
+            "Include model_card.md (system reference)",
+            value=False,
         )
         show_json = st.checkbox("Show full JSON output", value=False)
 
