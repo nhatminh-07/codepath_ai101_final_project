@@ -6,7 +6,7 @@ It is designed to:
 
 - Ingest local project documents.
 - Retrieve relevant evidence for a user query.
-- Generate grounded plans, summaries, and recommendations with citations.
+- Generate grounded plans, summaries, and actionable next steps with citations.
 - Evaluate response quality before returning output.
 - Capture human feedback for iterative improvement.
 
@@ -30,7 +30,7 @@ RepoFinder integrates the following AI features in the main runtime pipeline:
 
 2. Agentic Workflow
 - The agent detects mode (planning/comparison/risk/summary).
-- It creates a short plan, generates an answer, and supports fallback repair when checks fail.
+- It creates a short plan, generates an answer with explicit next actions, and supports fallback repair when checks fail.
 
 3. Reliability/Testing Layer
 - The evaluator checks groundedness, mode correctness, and confidence thresholds.
@@ -121,7 +121,7 @@ Then open the local URL shown in your terminal (usually `http://localhost:8501`)
 ### UI Workflow
 
 1. Enter a query in the text box.
-2. Upload one or more `.md`, `.txt`, or `.csv` files.
+2. Upload one or more `.md`, `.txt`, `.csv`, or `.pdf` files.
 3. Optionally keep `README.md` and `model_card.md` enabled from the sidebar defaults.
 4. Click **Run RepoFinder**.
 5. Review answer, plan, citations, confidence, and evaluation checks.
@@ -140,6 +140,7 @@ The CLI returns JSON with:
 
 - `answer`: grounded response text.
 - `plan`: internal high-level action plan.
+- `answer` includes a `Next Actions` section with concrete steps.
 - `citations`: source chunk IDs.
 - `confidence`: numeric confidence score.
 - `evaluation`: pass/fail checks and notes.
@@ -162,6 +163,7 @@ pytest tests/test_repofinder.py
 Current RepoFinder tests validate:
 
 - Unsupported file-type guardrail behavior.
+- PDF ingestion support.
 - End-to-end grounded output with citations.
 - Safe handling for low-relevance queries.
 

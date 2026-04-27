@@ -6,12 +6,29 @@ from src.repofinder import IngestionParser, RepoFinderSystem
 
 
 def test_ingestion_rejects_unsupported_extension(tmp_path: Path):
-    bad_file = tmp_path / "notes.pdf"
+    bad_file = tmp_path / "notes.docx"
     bad_file.write_text("fake", encoding="utf-8")
 
     parser = IngestionParser()
     with pytest.raises(ValueError, match="Unsupported file type"):
         parser.ingest([str(bad_file)])
+
+
+def test_ingestion_accepts_pdf_extension(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    pdf_file = tmp_path / "notes.pdf"
+    pdf_file.write_bytes(b"%PDF-1.4\n%%EOF")
+
+    parser = IngestionParser()
+    monkeypatch.setattr(
+        parser,
+        "_extract_pdf_text",
+        lambda _: "Week 4 tasks: build tests and finalize demo outputs.",
+    )
+
+    chunks = parser.ingest([str(pdf_file)])
+
+    assert len(chunks) >= 1
+    assert "Week 4 tasks" in chunks[0].text
 
 
 def test_end_to_end_returns_grounded_output(tmp_path: Path):
@@ -34,6 +51,7 @@ def test_end_to_end_returns_grounded_output(tmp_path: Path):
     )
 
     assert "Mode: planning" in output["answer"]
+    assert "Next Actions:" in output["answer"]
     assert output["evaluation"]["passed"] is True
     assert len(output["citations"]) >= 1
 

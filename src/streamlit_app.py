@@ -16,7 +16,7 @@ except ImportError:
     from repofinder import RepoFinderSystem, configure_logging
 
 
-SUPPORTED_EXTENSIONS = ["md", "txt", "csv"]
+SUPPORTED_EXTENSIONS = ["md", "txt", "csv", "pdf"]
 
 
 def _save_uploaded_files(uploaded_files, temp_dir: Path) -> List[str]:
@@ -68,7 +68,7 @@ def render() -> None:
     )
 
     uploaded_files = st.file_uploader(
-        "Upload one or more files (.md, .txt, .csv)",
+        "Upload one or more files (.md, .txt, .csv, .pdf)",
         type=SUPPORTED_EXTENSIONS,
         accept_multiple_files=True,
     )

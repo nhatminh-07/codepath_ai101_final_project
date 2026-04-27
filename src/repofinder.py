@@ -66,7 +66,7 @@ class EvaluationResult:
 class IngestionParser:
     """Validates files, extracts text, and chunks content for retrieval."""
 
-    supported_suffixes = {".md", ".txt", ".csv"}
+    supported_suffixes = {".md", ".txt", ".csv", ".pdf"}
 
     def __init__(self, chunk_size: int = 500, overlap: int = 80):
         if chunk_size <= overlap:
@@ -83,7 +83,7 @@ class IngestionParser:
         for path_str in file_paths:
             path = Path(path_str)
             self._validate_file(path)
-            text = path.read_text(encoding="utf-8")
+            text = self._read_file_text(path)
 
             if not text.strip():
                 LOGGER.warning("Skipping empty file: %s", path)
@@ -97,6 +97,22 @@ class IngestionParser:
             raise ValueError("No usable text was ingested from the provided files")
 
         return chunks
+
+    def _read_file_text(self, path: Path) -> str:
+        if path.suffix.lower() == ".pdf":
+            return self._extract_pdf_text(path)
+        return path.read_text(encoding="utf-8")
+
+    def _extract_pdf_text(self, path: Path) -> str:
+        try:
+            from pypdf import PdfReader
+        except ImportError as exc:
+            raise ImportError(
+                "PDF support requires pypdf. Install dependencies with: pip install -r requirements.txt"
+            ) from exc
+        reader = PdfReader(str(path))
+        pages = [(page.extract_text() or "") for page in reader.pages]
+        return "\n".join(pages)
 
     def _validate_file(self, path: Path) -> None:
         if not path.exists():
@@ -203,13 +219,15 @@ class AgentPlannerExecutor:
 
     def run(self, query: str, hits: Sequence[RetrievalHit]) -> AgentResult:
         mode = self._detect_mode(query)
+        top_hits = [hit for hit in hits if hit.score > 0.0]
+        action_items = self._build_action_items(mode, top_hits)
         plan = [
             f"Detected mode: {mode}",
             "Use top retrieved evidence to ground the response",
             "Produce prioritized recommendations and cite sources",
+            *[f"Action {idx + 1}: {item}" for idx, item in enumerate(action_items)],
         ]
 
-        top_hits = [hit for hit in hits if hit.score > 0.0]
         if not top_hits:
             answer = (
                 "I could not find directly relevant evidence in the indexed files. "
@@ -225,9 +243,14 @@ class AgentPlannerExecutor:
             citations.append(hit.chunk.chunk_id)
 
         recommendation = self._build_recommendation(mode, query, top_hits)
+        action_block = "\n".join(
+            f"{idx + 1}. {item}" for idx, item in enumerate(action_items)
+        )
         answer = (
             f"Mode: {mode}\n"
             f"Recommendation: {recommendation}\n"
+            "Next Actions:\n"
+            f"{action_block}\n"
             "Evidence:\n"
             + "\n".join(evidence_lines)
         )
@@ -258,6 +281,70 @@ class AgentPlannerExecutor:
         if mode == "risk_review":
             return "Rank risks by impact and urgency, then propose mitigations with explicit evidence links."
         return f"Provide a concise grounded summary for: {query}"
+
+    def _build_action_items(self, mode: str, hits: Sequence[RetrievalHit]) -> List[str]:
+        if not hits:
+            return ["Provide more specific files or query terms to generate grounded actions."]
+
+        candidate_sentences: List[str] = []
+        for hit in hits[:3]:
+            candidate_sentences.extend(re.split(r"[.!?]", hit.chunk.text))
+
+        action_verbs = {
+            "add",
+            "build",
+            "prioritize",
+            "run",
+            "record",
+            "prepare",
+            "test",
+            "update",
+            "include",
+            "implement",
+            "plan",
+        }
+        extracted: List[str] = []
+        seen: set[str] = set()
+        for sentence in candidate_sentences:
+            cleaned = re.sub(r"\s+", " ", sentence).strip(" -\n\t")
+            if not cleaned:
+                continue
+            lowered = cleaned.lower()
+            if any(f" {verb} " in f" {lowered} " for verb in action_verbs):
+                item = cleaned[0].upper() + cleaned[1:]
+                if item not in seen:
+                    extracted.append(item)
+                    seen.add(item)
+            if len(extracted) >= 3:
+                break
+
+        if extracted:
+            return extracted
+
+        if mode == "planning":
+            return [
+                "Define the top three deliverables for this week with clear owners.",
+                "Convert each deliverable into a day-by-day checklist.",
+                "Run a final validation pass and capture demo evidence.",
+            ]
+        if mode == "comparison":
+            return [
+                "List the shared points across top sources.",
+                "Capture key differences with one sentence each.",
+                "Recommend which option to prioritize and why.",
+            ]
+        if mode == "risk_review":
+            return [
+                "List the top risks by impact and urgency.",
+                "Define one mitigation step per risk.",
+                "Assign an owner and deadline for each mitigation.",
+            ]
+
+        return [
+            "Summarize the top evidence in plain language.",
+            "Extract two to three actionable decisions.",
+            "Identify missing information needed for a stronger answer.",
+        ]
 
 
 class Evaluator:

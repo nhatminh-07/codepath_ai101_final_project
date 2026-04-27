@@ -18,7 +18,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "paths",
         nargs="+",
-        help="One or more .md/.txt/.csv files to index for retrieval",
+        help="One or more .md/.txt/.csv/.pdf files to index for retrieval",
     )
     parser.add_argument("--top-k", type=int, default=3, help="Retriever top-k")
     parser.add_argument(
