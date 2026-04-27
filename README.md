@@ -7,7 +7,7 @@ Tran Ngoc Nhat Minh
 ## Portfolio Artifact
 
 - [GitHub repository](https://github.com/nhatminh-07/codepath_ai101_final_project)
-- Loom walkthrough: add your Loom URL here
+- [Loom walkthrough](https://www.loom.com/share/1f2e344ecf6f4576a834b209e7a88628)
 
 ## Original Project (Modules 1-3)
 
